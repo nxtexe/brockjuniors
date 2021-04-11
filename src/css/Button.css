@@ -1,0 +1,50 @@
+.button-base.default {
+  padding: 10px;
+}
+.button-base.contained:active {
+    box-shadow: 0px 0px 5px var(--button-border);;
+}
+.button-base.secondary {
+  background-color: var(--button-secondary-background);
+  color: var(--button-secondary-text);
+}
+.button-base.secondary.default {
+  background-color: transparent;
+  color: var(--button-default-text);
+}
+.button-base.secondary:active {
+  color: var(--button-active-text);
+}
+.button-base.flat {
+  padding: 10px;
+  border: 1px solid var(--button-flat-border);
+}
+.button-base.flat.Mui-disabled {
+    border: 1px solid var(--button-border);
+}
+.button-base.contained {
+  padding: 10px;
+  border: 1px solid var(--button-border);
+  border-radius: 5px;
+}
+.MuiButtonBase-root.Mui-disabled {
+  color: var(--button-disabled-text);
+  background-color: var(--button-background);
+}
+.MuiButtonBase-root.Mui-disabled.default {
+  background-color: transparent;
+  color: var(--button-background);
+}
+._icon-button {
+    border-radius: 50%!important;
+    padding: 16px!important;
+}
+.button-base {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button-base .children {
+    margin-left: 8px;
+    margin-right: 8px;
+}

@@ -1,0 +1,164 @@
+:root {
+  --roboto-thin: 100;
+  --robot-thin-italic: 100 italic;
+  --roboto-light: 300;
+  --roboto-light-italic: 300 italic;
+  --roboto-regular: 400;
+  --roboto-regular-italic: 400 italic;
+  --roboto-medium: 500;
+  --roboto-medium-italic: 500 italic;
+  --roboto-bold: 700;
+  --roboto-bold-italic: 700 italic;
+  --roboto-black: 900;
+  --roboto-black-italic: 900 italic;
+}
+.darko-mode {
+  --primary-light: #8E8E8E;
+  --primary-main: #292929;
+  --primary-dark: #000000;
+  --secondary-light: #FFFFFF;
+  --secondary-main: #333333;
+  --secondary-dark: #8E8E8E;
+  --error-light: #F03A64;
+  --error-main: #F50038;
+  --error-dark: #88001F;
+  --warning-light: #F1B448;
+  --warning-main: #F5A20F;
+  --warning-dark: #B97A0C;
+  --info-light: #B573ED;
+  --info-main: #8602F5;
+  --info-dark: #681BA8;
+  --success-light: #33F58F;
+  --success-main: #42B478;
+  --success-dark: #1BA85E;
+  --background: var(--primary-main);
+  --paper: var(--primary-main);
+  --text-primary: var(--secondary-light);
+  --text-secondary: var(--primary-light);
+  --button-border: var(--primary-light);
+  --button-flat-border: var(--primary-light);
+  --button-background: var(--primary-light);
+  --button-secondary-background: var(--primary-light);
+  --button-disabled-text: var(--primary-main);
+  --button-default-text: var(--secondary-light);
+  --button-secondary-text: var(--secondary-light);
+  --button-active-text: var(--primary-dark);
+  --input-text: var(--primary-dark);
+}
+.lighto-mode {
+  --primary-light: #FFFFFF;
+  --primary-main: #D8D8D8;
+  --primary-dark: #8E8E8E;
+  --secondary-light: #8E8E8E;
+  --secondary-main: #292929;
+  --secondary-dark: #000000;
+  --error-light: #F03A64;
+  --error-main: #F50038;
+  --error-dark: #88001F;
+  --warning-light: #F1B448;
+  --warning-main: #F5A20F;
+  --warning-dark: #B97A0C;
+  --info-light: #B573ED;
+  --info-main: #8602F5;
+  --info-dark: #681BA8;
+  --success-light: #33F58F;
+  --success-main: #42B478;
+  --success-dark: #1BA85E;
+  --background: #FFFFFF;
+  --paper: #FFFFFF;
+  --text-primary: var(--secondary-dark);
+  --text-secondary: var(--primary-dark);
+  --button-border: var(--primary-main);
+  --button-flat-border: var(--secondary-dark);
+  --button-background: var(--primary-dark);
+  --button-secondary-background: var(--secondary-main);
+  --button-disabled-text: var(--primary-main);
+  --button-default-text: var(--secondary-dark);
+  --button-secondary-text: var(--primary-light);
+  --button-active-text: var(--secondary-dark);
+  --input-text: var(--secondary-dark);
+}
+.MuiInputBase-root {
+  color: var(--input-text)!important;
+}
+.MuiOutlinedInput-root {
+  background-color: var(--secondary-light);
+}
+h1 {
+  font-weight: var(--roboto-bold);
+  font-size: 64px;
+  letter-spacing: calc(calc(-1.56 / 100) * 12px);
+}
+h2 {
+  font-weight: var(--roboto-bold);
+  font-size: 40px;
+  letter-spacing: calc(calc(-2.5 / 100) * 12px);
+}
+h3 {
+  font-weight: var(--roboto-bold);
+  font-size: 24px;
+}
+h4 {
+  font-weight: var(--roboto-medium);
+  font-size: 22px;
+  letter-spacing: calc(calc(2 / 100) * 12px);
+}
+h5 {
+  font-weight: var(--roboto-medium);
+  font-size: 20px;
+  letter-spacing: calc(calc(3 / 100) * 12px);
+}
+h6 {
+  font-weight: var(--roboto-bold);
+  font-size: 18px;
+  letter-spacing: calc(calc(5 / 100) * 12px);
+}
+p.sub1 {
+  font-weight: var(--roboto-regular);
+  font-size: 16px;
+  letter-spacing: calc(calc(0.94 / 100) * 12px);
+}
+p.sub2 {
+  font-weight: var(--roboto-medium);
+  font-size: 16px;
+  letter-spacing: calc(calc(0.94 / 100) * 12px);
+}
+p {
+  font-weight: var(--roboto-regular);
+  font-size: 16px;
+  line-height: 145%;
+}
+button {
+  font-weight: var(--roboto-medium);
+  font-size: 12px;
+  letter-spacing: calc(calc(12 / 100) * 12px);
+  text-transform: uppercase;
+}
+.caption {
+  font-weight: var(--roboto-regular);
+  font-size: 12px;
+  letter-spacing: calc(calc(3.33 / 100) * 12px);
+}
+b {
+  font-weight: var(--roboto-bold);
+  font-size: 16px;
+}
+small {
+  font-weight: var(--roboto-regular);
+  font-size: 10px;
+}
+
+/*fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
