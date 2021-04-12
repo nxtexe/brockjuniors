@@ -1,0 +1,107 @@
+/*mobile design*/
+@media only screen and (max-width: 500px) {
+    .back-button,
+    .page-title {
+        grid-column: span 4 / 5;
+        grid-row: 1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .page-title {
+        justify-content: center;
+    }
+    .page-title p {
+        font-size: 12px;
+        letter-spacing: calc(calc(12 / 100) * 12px);
+        text-transform: uppercase;
+    }
+    .about .title,
+    .about .subtitle {
+        grid-column: span 4 / 5;
+        grid-row: 2;
+        align-self: flex-end;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .about .subtitle {
+        grid-row: 3;
+    }
+    .about .typing {
+        width: max-content;
+    }
+    .about .typing h3,
+    .about .typing p {
+        overflow: hidden;
+        border-right: 0.15em solid var(--text-primary);
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: 0.15em;
+        animation: typing 2.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    .about .typing p {
+        animation-delay: 2.5s;
+        animation-fill-mode: backwards;
+    }
+    @keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+    }
+    @keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: var(--text-primary);
+    }
+    }
+    .about .photo-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        grid-column: span 4 / 5;
+        grid-row: span 8 / 13;
+    }
+    .about .photo-grid div {
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+        background-color: var(--paper);
+    }
+    .about .photo-grid div img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .about .photo-grid div:nth-child(1) {
+        grid-column: span 2 / 3;
+        grid-row: span 3 / 4;
+    }
+    .about .photo-grid div:nth-child(2) {
+        grid-column: span 2 / 5;
+        grid-row: span 5 / 6;
+    }
+    .about .photo-grid div:nth-child(3) {
+        grid-column: span 2 / 3;
+        grid-row: span 2 / 6;
+    }
+    .about .photo-grid div:nth-child(4) {
+        grid-column: span 4 / 5;
+        grid-row: span 3 / 9;
+    }
+    img[alt="nicorude"] {
+        object-position: 50% 35%;
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+
+}

@@ -13,24 +13,24 @@
   --roboto-black-italic: 900 italic;
 }
 .darko-mode {
-  --primary-light: #8E8E8E;
+  --primary-light: #8e8e8e;
   --primary-main: #292929;
   --primary-dark: #000000;
-  --secondary-light: #FFFFFF;
+  --secondary-light: #ffffff;
   --secondary-main: #333333;
-  --secondary-dark: #8E8E8E;
-  --error-light: #F03A64;
-  --error-main: #F50038;
-  --error-dark: #88001F;
-  --warning-light: #F1B448;
-  --warning-main: #F5A20F;
-  --warning-dark: #B97A0C;
-  --info-light: #B573ED;
-  --info-main: #8602F5;
-  --info-dark: #681BA8;
-  --success-light: #33F58F;
-  --success-main: #42B478;
-  --success-dark: #1BA85E;
+  --secondary-dark: #8e8e8e;
+  --error-light: #f03a64;
+  --error-main: #f50038;
+  --error-dark: #88001f;
+  --warning-light: #f1b448;
+  --warning-main: #f5a20f;
+  --warning-dark: #b97a0c;
+  --info-light: #b573ed;
+  --info-main: #8602f5;
+  --info-dark: #681ba8;
+  --success-light: #33f58f;
+  --success-main: #42b478;
+  --success-dark: #1ba85e;
   --background: var(--primary-main);
   --paper: var(--primary-main);
   --text-primary: var(--secondary-light);
@@ -46,26 +46,26 @@
   --input-text: var(--primary-dark);
 }
 .lighto-mode {
-  --primary-light: #FFFFFF;
-  --primary-main: #D8D8D8;
-  --primary-dark: #8E8E8E;
-  --secondary-light: #8E8E8E;
+  --primary-light: #ffffff;
+  --primary-main: #d8d8d8;
+  --primary-dark: #8e8e8e;
+  --secondary-light: #8e8e8e;
   --secondary-main: #292929;
   --secondary-dark: #000000;
-  --error-light: #F03A64;
-  --error-main: #F50038;
-  --error-dark: #88001F;
-  --warning-light: #F1B448;
-  --warning-main: #F5A20F;
-  --warning-dark: #B97A0C;
-  --info-light: #B573ED;
-  --info-main: #8602F5;
-  --info-dark: #681BA8;
-  --success-light: #33F58F;
-  --success-main: #42B478;
-  --success-dark: #1BA85E;
-  --background: #FFFFFF;
-  --paper: #FFFFFF;
+  --error-light: #f03a64;
+  --error-main: #f50038;
+  --error-dark: #88001f;
+  --warning-light: #f1b448;
+  --warning-main: #f5a20f;
+  --warning-dark: #b97a0c;
+  --info-light: #b573ed;
+  --info-main: #8602f5;
+  --info-dark: #681ba8;
+  --success-light: #33f58f;
+  --success-main: #42b478;
+  --success-dark: #1ba85e;
+  --background: #ffffff;
+  --paper: #ffffff;
   --text-primary: var(--secondary-dark);
   --text-secondary: var(--primary-dark);
   --button-border: var(--primary-main);
@@ -79,7 +79,7 @@
   --input-text: var(--secondary-dark);
 }
 .MuiInputBase-root {
-  color: var(--input-text)!important;
+  color: var(--input-text) !important;
 }
 .MuiOutlinedInput-root {
   background-color: var(--secondary-light);
@@ -149,16 +149,38 @@ small {
 }
 
 /*fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   min-width: 100vw;
   min-height: 100vh;
   background-color: var(--background);
   color: var(--text-primary);
+}
+.screen-grid {
+  margin: 15px;
+  display: grid;
+  column-gap: 20px;
+  row-gap: 10px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  max-width: 100vw;
+  max-height: 100vh;
+}
+@media only screen and (max-width: 500px) {
+  .screen-grid {
+    margin: 15px;
+    display: grid;
+    column-gap: 20px;
+    row-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    max-width: 100vw;
+    max-height: 100vh;
+  }
 }
