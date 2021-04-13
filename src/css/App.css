@@ -44,6 +44,7 @@
   --button-secondary-text: var(--secondary-light);
   --button-active-text: var(--primary-dark);
   --input-text: var(--primary-dark);
+  --desktop-nav-background: var(--primary-dark);
 }
 .lighto-mode {
   --primary-light: #ffffff;
@@ -77,6 +78,7 @@
   --button-secondary-text: var(--primary-light);
   --button-active-text: var(--secondary-dark);
   --input-text: var(--secondary-dark);
+  --desktop-nav-background: var(--primary-main);
 }
 .MuiInputBase-root {
   color: var(--input-text) !important;
@@ -163,7 +165,7 @@ body {
   color: var(--text-primary);
 }
 .screen-grid {
-  margin: 15px;
+  padding: 15px;
   display: grid;
   column-gap: 20px;
   row-gap: 10px;

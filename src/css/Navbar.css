@@ -1,0 +1,14 @@
+.desktop-nav {
+    height: 75px!important;
+    background-color: var(--desktop-nav-background);
+}
+.desktop-nav .page-title {
+    grid-column: span 3 / 9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: var(--roboto-medium);
+    font-size: 12px;
+    letter-spacing: calc(calc(12 / 100) * 12px);
+    text-transform: uppercase;
+}

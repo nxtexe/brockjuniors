@@ -1,11 +1,27 @@
-.ghost-layer {
-  position: absolute;
+.ghost-layer div:nth-child(1) {
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 10000;
+  background-color: var(--background);
 }
 .hidden {
-    display: none;
+  display: none;
+}
+.fade-in {
+  animation: 1s fade-in ease-in-out forwards;
+}
+.fade-out {
+  animation: 1s fade-in ease-in-out forwards;
+  animation-direction: reverse;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

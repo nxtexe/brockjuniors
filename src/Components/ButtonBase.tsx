@@ -26,10 +26,11 @@ export interface ButtonProps {
     endIcon? : any;
     startIcon? : any;
     onClick? : React.MouseEventHandler<HTMLButtonElement>;
+    disableRipple? : boolean;
 }
 export default function ButtonBase(props : ButtonProps) {
     return (
-        <Base onClick={props.onClick} disabled={props.disabled || false} className={`button-base ${props.colour || 'primary'} ${props.variant || 'default'} ${props.className || ''}`}>
+        <Base disableRipple={props.disableRipple} onClick={props.onClick} disabled={props.disabled || false} className={`button-base ${props.colour || 'primary'} ${props.variant || 'default'} ${props.className || ''}`}>
             {props.startIcon}
             <div className={props.startIcon || props.endIcon ? "children" : undefined}>{props.children}</div>
             {props.endIcon}
