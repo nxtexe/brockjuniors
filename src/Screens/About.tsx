@@ -25,8 +25,6 @@ interface AboutProps {
     history : any;
 }
 export default function About(props : AboutProps) {
-    let image_view_ref : HTMLDivElement | null = null;
-
     const links = {
         nxte: 'https://www.instagram.com/p/CLniWw6H901/?utm_source=ig_web_copy_link',
         txhj: 'https://www.instagram.com/p/CL8UaU3HjFP/?utm_source=ig_web_copy_link',
@@ -46,19 +44,21 @@ export default function About(props : AboutProps) {
         set_link(name);
         toggle_modal(true);
     }
+
+    const on_back = () => {
+        if (props.history.length) {
+            props.history.goBack();
+        } else {
+            props.history.push('/');
+        }
+    }
     return (
         <div className="about">
-            <DesktopNavbar onBack={() => {
-                if (props.history.length) {
-                    props.history.goBack();
-                } else {
-                    props.history.push('/');
-                }
-            }} title="About" />
+            <DesktopNavbar onBack={on_back} title="About" />
             <div className="content">
                 <div className="screen-grid">
                     <div className="back-button">
-                        <IconButton>
+                        <IconButton onClick={on_back}>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>
@@ -111,7 +111,7 @@ export default function About(props : AboutProps) {
                             <ShareIcon />
                         </IconButton>
                     </div>
-                    <div className="image-view" ref={c => image_view_ref = c}>
+                    <div className="image-view">
                         <img src={images[link as names]} alt={link} />
                     </div>
                 </div>

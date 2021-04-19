@@ -1,0 +1,30 @@
+.drawer .MuiListItemText-root {
+    font-weight: var(--roboto-medium);
+    font-size: 12px;
+    letter-spacing: calc(calc(12 / 100) * 12px);
+    text-transform: uppercase;
+}
+.drawer div[role="presentation"] {
+    margin-top: 60px;
+}
+.drawer .MuiDrawer-paper {
+    width: 53%;
+}
+.drawer .brand {
+    padding: 20px;
+}
+.drawer .content {
+    padding: 20px;
+}
+.drawer .content .MuiListItem-button {
+    padding-left: 0;
+}
+.drawer .fine-print {
+    text-align: center;
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 25px;
+
+}

@@ -44,7 +44,8 @@
   --button-secondary-text: var(--secondary-light);
   --button-active-text: var(--primary-dark);
   --input-text: var(--primary-dark);
-  --desktop-nav-background: var(--primary-dark);
+  --nav-background: var(--primary-dark);
+  --divider: var(--secondary-dark);
 }
 .lighto-mode {
   --primary-light: #ffffff;
@@ -78,7 +79,11 @@
   --button-secondary-text: var(--primary-light);
   --button-active-text: var(--secondary-dark);
   --input-text: var(--secondary-dark);
-  --desktop-nav-background: var(--primary-main);
+  --nav-background: var(--primary-main);
+  --divider: var(--primary-dark);
+}
+.MuiDivider-root  {
+  background-color: var(--divider)!important;
 }
 .MuiInputBase-root {
   color: var(--input-text) !important;
@@ -165,7 +170,7 @@ body {
   color: var(--text-primary);
 }
 .screen-grid {
-  padding: 15px;
+  margin: 15px;
   display: grid;
   column-gap: 20px;
   row-gap: 10px;
@@ -185,4 +190,10 @@ body {
     max-width: 100vw;
     max-height: 100vh;
   }
+}
+.MuiSlider-rail {
+  background-color: var(--primary-light)!important;
+}
+.MuiSlider-thumb {
+  background-color: var(--secondary-light)!important;
 }

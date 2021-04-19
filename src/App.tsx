@@ -10,18 +10,21 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import MobileRythym from './Screens/MobileRhythm';
 
 function App() {
   return (
     <ThemeProvider theme={dark_theme}>
         <GhostLayer />
         <Router>
+          <MobileRythym />
           <Switch>
             <Route exact path="/about" render={(props : any) => {
               return <About {...props} />
             }} />
-            <Route exact path="/">
-              <Home />
+            <Route exact path="/" render={(props:any) => {
+              return <Home {...props} />
+            }}>
             </Route>
           </Switch>
         </Router>
