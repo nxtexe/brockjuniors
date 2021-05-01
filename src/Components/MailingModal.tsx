@@ -38,6 +38,7 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                             "You've been added to the our mailing list! You'll be the first to receive updates as they happen.",
                         );
                     }
+                    this.setState({loading: false});
                 });
                 
     
