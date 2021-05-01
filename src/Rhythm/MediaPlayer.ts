@@ -4,6 +4,7 @@ import ytsr from 'ytsr';
 import ytdl from 'ytdl-core';
 import {iOS} from '../common/utils';
 import {MediaSource, events} from './MediaSource';
+import { v4 as uuid4 } from 'uuid';
 
 export interface SearchResult {
     type: string;
@@ -43,40 +44,21 @@ export interface MediaItem {
     author: SearchResult["author"];
     audio : HTMLAudioElement;
     source : MediaElementAudioSourceNode;
+    uuid : string;
+    liked : boolean;
 }
 
+const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
 export class MediaPlayer {
     private media_queue : MediaQueue = new MediaQueue();
     private audio_context : AudioContext = new AudioContext();
-    private queue_index : number = 0;
+    private _queue_index : number = 0;
     private _playing : boolean = false;
-    
+    private _can_play : boolean = false;
     private media_source : MediaSource = new MediaSource(this.audio_context);
-    constructor() {        
-        const url : string = './rhythm-join.mp3';
-        const rhythm_audio : HTMLAudioElement = new Audio(url);
-        
-        rhythm_audio.onloadedmetadata = () => {
-            this.media_queue.enqueue({
-                url: url,
-                name: 'Rhythm Join',
-                thumbnail: {
-                    url: '',
-                    width: 0,
-                    height: 0
-                },
-                duration: rhythm_audio.duration,
-                author: {
-                    name: 'Brock Juniors',
-                    channelID: '',
-                    url: ''
-                },
-                audio: rhythm_audio,
-                source: this.audio_context.createMediaElementSource(rhythm_audio)
-            });
-        };
-                
-
+    private _repeat : number = 1;
+    private played_once : boolean = false;
+    constructor() {
         this.media_source.addEventListener('ended',  this._handle_track_end.bind(this), true);
         this.media_source.addEventListener('error', (e) => {
             if (this.media_source.callbacks.error) this.media_source.callbacks.error(e);
@@ -128,36 +110,6 @@ export class MediaPlayer {
         }
     }
 
-    private resolve_audio_buffer(url : string) : Promise<AudioBuffer> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await fetch(url);
-                const array_buffer : ArrayBuffer = await response.arrayBuffer();
-    
-                const audio_buffer : AudioBuffer = await this.audio_context.decodeAudioData(array_buffer);
-    
-                resolve(audio_buffer);
-            } catch(e) {
-                reject(e);
-            }
-        });
-    }
-
-    private cors_resolve_audio_buffer(url : string) : Promise<AudioBuffer> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
-                const array_buffer : ArrayBuffer = await response.arrayBuffer();
-    
-                const audio_buffer : AudioBuffer = await this.audio_context.decodeAudioData(array_buffer);
-    
-                resolve(audio_buffer);
-            } catch(e) {
-                reject(e);
-            }
-        });
-    }
-
     public _MediaPlayer() {
         //destructor
 
@@ -168,7 +120,7 @@ export class MediaPlayer {
             this._playing = false;
         }
 
-        this.queue_index = 0;
+        this._queue_index = 0;
         this.media_queue.clear();
 
         //clear action handlers
@@ -207,20 +159,36 @@ export class MediaPlayer {
     private _handle_track_end() {
         this._playing = false;
         if (this.media_queue.length) {
-            this.next();
+            if (this._repeat === 1) {
+                this.next();
+            } else if (this._repeat === 2) {
+                if (!this.played_once) {
+                    this.media_source.current_time = 0;
+                    this.play();
+                    this._playing = true;
+                    this.played_once = true;
+                } else {
+                    this.played_once = false;
+                    this.next();
+                }
+            } else if (this._repeat === 4) {
+                this.media_source.current_time = 0;
+                this.play();
+                this._playing = true;
+            }
         }
     }
 
     public next() {
-        if (this.queue_index < this.media_queue.length - 1) {
-            this.queue_index += 1;
+        if (this._queue_index < this.media_queue.length - 1) {
+            this._queue_index += 1;
             this.media_source.pause();
-            // this.audio_ref.setAttribute('src', this.media_queue.queue[this.queue_index].url);
-            this.media_source.source = this.media_queue.queue[this.queue_index].source;
-            this.media_source.audio = this.media_queue.queue[this.queue_index].audio;
+            // this.audio_ref.setAttribute('src', this.media_queue.queue[this._queue_index].url);
+            this.media_source.source = this.media_queue.queue[this._queue_index].source;
+            this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
             this.media_source.current_time = 0;
 
-            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this.queue_index]);
+            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
 
             // this.audio_ref.play();
             this.media_source.play();
@@ -240,13 +208,13 @@ export class MediaPlayer {
             this.media_source.pause();
         }
         
-        if (this.queue_index) {
-            this.queue_index -= 1;
-            this.media_source.source = this.media_queue.queue[this.queue_index].source;
-            this.media_source.audio = this.media_queue.queue[this.queue_index].audio;
+        if (this._queue_index) {
+            this._queue_index -= 1;
+            this.media_source.source = this.media_queue.queue[this._queue_index].source;
+            this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
             this.media_source.current_time = 0;
             
-            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this.queue_index]); 
+            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]); 
             
             this.media_source.play();
             this._playing = true; 
@@ -262,7 +230,7 @@ export class MediaPlayer {
     }
 
     public play() {
-        if (this.media_queue.length && this.queue_index < this.media_queue.length) {
+        if (this.media_queue.length && this._queue_index < this.media_queue.length) {
             this.media_source.play();
 
             if (this.media_source.callbacks.play) this.media_source.callbacks.play();
@@ -320,13 +288,15 @@ export class MediaPlayer {
                         
                             media_item.audio = audio_test;
                             this.media_queue.enqueue(media_item);
+
+                            if (this.media_queue.length === 1) this._can_play = true;
                         }
                         
-                        if ((!this.media_queue.length || this.queue_index >= this.media_queue.length - 1 || this.media_queue.length === 2) && !this._playing) {
-                            this.media_source.source = this.media_queue.queue[this.queue_index].source;
-                            this.media_source.audio = this.media_queue.queue[this.queue_index].audio;
+                        if ((!this.media_queue.length || this._queue_index >= this.media_queue.length - 1 || this.media_queue.length === 2) && !this._playing) {
+                            this.media_source.source = this.media_queue.queue[this._queue_index].source;
+                            this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
                             
-                            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this.queue_index]); 
+                            if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]); 
                         }
 
                         resolve(undefined);
@@ -347,12 +317,23 @@ export class MediaPlayer {
         })
     }
 
-    public volume(volume : number) {
-        this.media_source.volume = volume;
+    set volume(_volume : number) {
+        this.media_source.volume = _volume;
     }
 
     set current_time(currentTime : number) {
         this.media_source.current_time = currentTime;
+    }
+
+    set queue(media_queue : MediaQueue) {
+        this.media_queue = media_queue;
+    } 
+
+    get now_playing() : MediaItem {
+        return this.media_queue.queue[this._queue_index];
+    }
+    get queue() : MediaQueue {
+        return this.media_queue;
     }
 
     get current_time() : number {
@@ -361,6 +342,15 @@ export class MediaPlayer {
 
     get is_playing() : boolean {
         return this._playing;
+    }
+    get can_play() : boolean {
+        return this._can_play;
+    }
+    get can_next() : boolean {
+        return this._queue_index < this.media_queue.length - 1;
+    }
+    get can_previous() : boolean {
+        return this._queue_index > 0;
     }
 
     async search(name : string) : Promise<MediaItem[]> {
@@ -400,7 +390,9 @@ export class MediaPlayer {
                         url: result.bestThumbnail?.url
                     },
                     url: result.url,
-                    author: result.author
+                    author: result.author,
+                    uuid: uuid4(),
+                    liked: false
                 };
             });
         } else {
@@ -413,4 +405,44 @@ export class MediaPlayer {
         this.media_source.on(event, callback);
     }
     
+    public shuffle() {
+        this.pause();
+        this.media_queue.shuffle();
+        if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
+        this.media_source.source = this.media_queue.queue[this._queue_index].source;
+        this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+    }
+
+    public unshuffle() {
+        this.pause();
+        this.media_queue.unshuffle();
+        if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
+        this.media_source.source = this.media_queue.queue[this._queue_index].source;
+        this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+    }
+
+    set repeat(_repeat : number) {
+        this._repeat = _repeat;
+    }
+
+    public skipt_to(uuid : string) {
+        this._queue_index = this.media_queue.queue_map[uuid];
+        if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
+        this.media_source.source = this.media_queue.queue[this._queue_index].source;
+        this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+    }
+    public remove() {
+        this.media_queue.remove(this.media_queue.queue[this._queue_index]);
+        if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
+        this.media_source.source = this.media_queue.queue[this._queue_index].source;
+        this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+    }
+
+    get queue_index() : number {
+        return this._queue_index;
+    }
+
+    set queue_index(_queue_index : number) {
+        this._queue_index = _queue_index;
+    }
 }

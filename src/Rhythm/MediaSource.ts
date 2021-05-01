@@ -5,6 +5,8 @@ export interface ICallbacks {
     change?: Function;
     play?: Function;
     pause?: Function;
+    buffering?: Function;
+    bufferend?: Function;
 }
 
 enum Eevents {
@@ -12,13 +14,15 @@ enum Eevents {
     change,
     play,
     pause,
-    ended
+    ended,
+    buffering,
+    bufferend,
 }
 export type events = keyof typeof Eevents;
 
 
 interface EventListener {
-    event : events;
+    event : keyof HTMLMediaElementEventMap;
     callback : (this: AudioBufferSourceNode, ev: Event) => any;
     async : boolean;
 }
@@ -33,7 +37,6 @@ export class MediaSource {
     private _volume : number = 1;
     constructor(audio_context : AudioContext) {
         this.audio_context = audio_context;
-
         if (isMobile()) {
             window.addEventListener('blur', () => {
                 if (this._playing) {
@@ -55,7 +58,7 @@ export class MediaSource {
         return this._source_node;
     }
 
-    addEventListener(event : events, callback : (this: AudioBufferSourceNode, ev: Event) => any, async? : boolean) {
+    addEventListener(event : keyof HTMLMediaElementEventMap, callback : (this: AudioBufferSourceNode, ev: Event) => any, async? : boolean) {
         this.event_listeners.push({
             event: event,
             callback: callback,
@@ -81,6 +84,13 @@ export class MediaSource {
 
         this._audio = _audio;
         this.volume = this._volume;
+
+        this._audio.addEventListener('waiting', (e) => {
+            if (this._callbacks.buffering) this._callbacks.buffering(e);
+        }, true);
+        this._audio.addEventListener('loadeddata', (e) => {
+            if (this._callbacks.bufferend) this._callbacks.bufferend(e);
+        }, true);
         /**
          * Code responsible for audio context source creation. This is necessary for playing audio in the background
          * on mobile but currently has an issue with cross origin content. Getting music from another origin
@@ -149,14 +159,16 @@ export class MediaSource {
     }
 
     get volume() : number {
-        if (this._gain_node) return this._gain_node.gain.value;
+        // if (this._gain_node) return this._gain_node.gain.value;
         
-        return 0;
+        return this._audio.volume;
 
     }
 
     set volume(_volume : number) {
-        if (this._gain_node) this._gain_node.gain.value = _volume;
+        this._volume = _volume;
+        this._audio.volume = _volume;
+        // if (this._gain_node) this._gain_node.gain.value = _volume;
     }
 
     get callbacks() : ICallbacks {
@@ -183,6 +195,14 @@ export class MediaSource {
                 
             case "pause":
                 this._callbacks.pause = callback;
+                break;
+            
+            case "buffering":
+                this._callbacks.buffering = callback;
+                break;
+            
+            case "bufferend":
+                this._callbacks.bufferend = callback;
                 break;
         }
     }

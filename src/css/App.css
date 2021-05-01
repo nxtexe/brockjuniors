@@ -46,6 +46,8 @@
   --input-text: var(--primary-dark);
   --nav-background: var(--primary-dark);
   --divider: var(--secondary-dark);
+  --accent: var(--info-main);
+  --text-input-bg: var(--secondary-light);
 }
 .lighto-mode {
   --primary-light: #ffffff;
@@ -71,7 +73,7 @@
   --text-primary: var(--secondary-dark);
   --text-secondary: var(--primary-dark);
   --button-border: var(--primary-main);
-  --button-flat-border: var(--secondary-dark);
+  --button-flat-border: var(--primary-dark);
   --button-background: var(--primary-dark);
   --button-secondary-background: var(--secondary-main);
   --button-disabled-text: var(--primary-main);
@@ -81,6 +83,8 @@
   --input-text: var(--secondary-dark);
   --nav-background: var(--primary-main);
   --divider: var(--primary-dark);
+  --accent: var(--error-main);
+  --text-input-bg: var(--primary-main);
 }
 .MuiDivider-root  {
   background-color: var(--divider)!important;
@@ -196,4 +200,20 @@ body {
 }
 .MuiSlider-thumb {
   background-color: var(--secondary-light)!important;
+}
+.text-field.flat {
+  background-color: var(--text-input-bg);
+  color: black!important;
+  font-size: 16px!important;
+  line-height: 145%!important;
+  font-weight: var(--roboto-medium)!important;
+  height: 46px;
+  padding: 10px;
+  border: 1px solid var(--button-flat-border);
+}
+.tabpanel-page {
+  overflow: hidden;
+}
+.text-field.error {
+  border-color: var(--error-main);
 }

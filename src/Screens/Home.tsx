@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MobileDrawer from '../Components/MobileDrawer';
 import ClearIcon from '@material-ui/icons/Clear';
 import MobileRhythm from './MobileRhythm';
+import MailingModal from '../Components/MailingModal';
 
 interface HomeProps {
     history : any;
@@ -17,6 +18,8 @@ interface HomeProps {
 
 interface HomeState {
     open_drawer : boolean;
+    open_rhythm : boolean;
+    open_mailing_modal : boolean;
 }
 export default class Home extends React.Component<HomeProps, HomeState> {
     private tickers : JSX.Element[] = [];
@@ -52,6 +55,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
     state = {
         open_drawer: false,
+        open_rhythm: false,
+        open_mailing_modal: false
+    }
+
+    componentDidMount() {
+        window.addEventListener('rhythm-close', () => {
+            this.setState({open_rhythm: false});
+        }, true);
     }
 
     render() {
@@ -83,19 +94,20 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                             </div>
                         </div>
                         <div className="clothes-carousel">
-                            <ClothesCarousel />
+                            <ClothesCarousel autoplay={!this.state.open_rhythm} />
                         </div>
                         <div className="mailing-list">
-                            <Button>Join our mailing list</Button>
+                            <Button onClick={() => this.setState({open_mailing_modal: true})}>Join our mailing list</Button>
                         </div>
                     </div>
-                    <div className="tickers">
+                    <div className={`tickers ${this.state.open_rhythm ? 'paused' : ''}`}>
                         {this.tickers}
                     </div>
                 </div>
-                <IconButton className="music" onClick={() => MobileRhythm.open()}>
+                <IconButton className="music" onClick={() => this.setState({open_rhythm: true}, () => MobileRhythm.open())}>
                     <MusicNoteIcon />
                 </IconButton>
+                <MailingModal open={this.state.open_mailing_modal} onClose={() => this.setState({open_mailing_modal: false})} />
             </div>
         );
     }

@@ -71,5 +71,5 @@
 }
 .desktop-nav .adornments button {
     font-weight: var(--roboto-bold);
-    color: var(--info-main);
+    color: var(--accent);
 }

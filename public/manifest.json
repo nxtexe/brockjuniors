@@ -3,23 +3,31 @@
   "name": "The Brock Juniors Shop",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
+      "src": "./brockjuniors_iclauncher/res/mipmap-xxxhdpi/brockjuniors_iclauncher_round.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+    	"purpose":"maskable",
+      "src": "./brockjuniors_iclauncher/res/mipmap-xxxhdpi/brockjuniors_iclauncher.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./brockjuniors_iclauncher/web_hi_res_512_round.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "purpose":"maskable",
+      "src": "./brockjuniors_iclauncher/web_hi_res_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
+  "orientation": "portait",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#000000"
 }

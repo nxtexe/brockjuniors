@@ -11,10 +11,12 @@ import {
   Route
 } from "react-router-dom";
 import MobileRythym from './Screens/MobileRhythm';
+import Alert from './Components/Alert';
 
 function App() {
   return (
     <ThemeProvider theme={dark_theme}>
+        <Alert />
         <GhostLayer />
         <Router>
           <MobileRythym />

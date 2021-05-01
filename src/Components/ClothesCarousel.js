@@ -27,7 +27,7 @@ export default class ClothesCarousel extends React.Component {
   render() {
     return (
       <div style={ClothesCarousel.CONTAINER_STYLE}>
-        <ReactCardCarousel autoplay={true} autoplay_speed={2500}>
+        <ReactCardCarousel autoplay={this.props.autoplay ? true : false} autoplay_speed={2500}>
           <div style={ClothesCarousel.CARD_STYLE}>
             <img style={{height: 'auto', width: '100%'}} src={Blue} alt="blue" />
           </div>
