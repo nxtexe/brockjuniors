@@ -9,7 +9,7 @@ import AppBar from '../Components/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import MobileDrawer from '../Components/MobileDrawer';
 import ClearIcon from '@material-ui/icons/Clear';
-import MobileRhythm from './MobileRhythm';
+import MobileRhythm from './Rhythm';
 import MailingModal from '../Components/MailingModal';
 
 interface HomeProps {
@@ -65,13 +65,22 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         }, true);
     }
 
+    toggle_rhythm = () => {
+        this.setState({open_rhythm: !this.state.open_rhythm}, () => {
+            if (this.state.open_rhythm) {
+                MobileRhythm.open();
+            } else {
+                MobileRhythm.close();
+            }
+        });
+    }
     render() {
         return (
             <div className="home">
                 <DesktopNavbar adornments={[
                     <Button onClick={() => this.props.history.push('/about')} disableRipple>About</Button>,
-                    <Button disableRipple>Settings</Button>,
-                    <Button variant="contained" endIcon={<MusicNoteIcon />}>Music</Button>
+                    <Button onClick={() => this.props.history.push('/settings')} disableRipple>Settings</Button>,
+                    <Button onClick={this.toggle_rhythm} variant="contained" endIcon={<MusicNoteIcon />}>Music</Button>
                 ]} />
                 <AppBar adornments={[
                     <IconButton onClick={() => this.setState({open_drawer: !this.state.open_drawer})}>
@@ -104,7 +113,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                         {this.tickers}
                     </div>
                 </div>
-                <IconButton className="music" onClick={() => this.setState({open_rhythm: true}, () => MobileRhythm.open())}>
+                <IconButton className="music" onClick={this.toggle_rhythm}>
                     <MusicNoteIcon />
                 </IconButton>
                 <MailingModal open={this.state.open_mailing_modal} onClose={() => this.setState({open_mailing_modal: false})} />

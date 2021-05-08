@@ -1,9 +1,9 @@
 /*desktop design*/
 @media only screen and (min-width: 500px) {
-    .back-button {
+    .about .back-button {
         display: none;
     }
-    .page-title {
+    .about .page-title {
         display: none;
     }
     .about .content .screen-grid {
@@ -82,18 +82,26 @@
 
 /*mobile design*/
 @media only screen and (max-width: 500px) {
-    .back-button,
-    .page-title {
+    .about .screen-grid {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 15px;
+    }
+    .about .back-button {
+        transform: translateX(-16px);
+    }
+    .about .back-button,
+    .about .page-title {
         grid-column: span 4 / 5;
         grid-row: 1;
         display: flex;
         justify-content: flex-start;
         align-items: center;
     }
-    .page-title {
+    .about .page-title {
         justify-content: center;
     }
-    .page-title p {
+    .about .page-title p {
         font-size: 12px;
         letter-spacing: calc(calc(12 / 100) * 12px);
         text-transform: uppercase;

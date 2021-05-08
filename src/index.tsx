@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import localforage from 'localforage';
+import {toggle_dark_mode} from './common/utils';
 
 if ('serviceWorker' in navigator) {
   //workbox
@@ -15,8 +17,19 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-const body : HTMLBodyElement = document.getElementsByTagName('body')[0] as HTMLBodyElement;
-body.className= 'darko-mode';
+localforage.getItem('theme')
+.then((theme) => {
+  if (theme) {
+    toggle_dark_mode((theme as string).includes('darko'));
+  } else {
+    let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    toggle_dark_mode(darko_mode);
+  }
+})
+.catch(e => {
+  let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  toggle_dark_mode(darko_mode);
+});
 
 ReactDOM.render(
   <React.StrictMode>

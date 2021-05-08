@@ -11,6 +11,7 @@
   --roboto-bold-italic: 700 italic;
   --roboto-black: 900;
   --roboto-black-italic: 900 italic;
+  --angle: 0deg;
 }
 .darko-mode {
   --primary-light: #8e8e8e;
@@ -47,6 +48,7 @@
   --nav-background: var(--primary-dark);
   --divider: var(--secondary-dark);
   --accent: var(--info-main);
+  --accent-light: var(--info-light);
   --text-input-bg: var(--secondary-light);
 }
 .lighto-mode {
@@ -84,6 +86,7 @@
   --nav-background: var(--primary-main);
   --divider: var(--primary-dark);
   --accent: var(--error-main);
+  --accent-light: var(--error-light);
   --text-input-bg: var(--primary-main);
 }
 .MuiDivider-root  {
@@ -171,6 +174,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   background-color: var(--background);
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
   color: var(--text-primary);
 }
 .screen-grid {
@@ -196,7 +200,7 @@ body {
   }
 }
 .MuiSlider-rail {
-  background-color: var(--primary-light)!important;
+  background-color: var(--button-background)!important;
 }
 .MuiSlider-thumb {
   background-color: var(--secondary-light)!important;
@@ -216,4 +220,17 @@ body {
 }
 .text-field.error {
   border-color: var(--error-main);
+}
+.MuiSwitch-switchBase {
+  color: var(--button-background)!important;
+}
+.MuiSwitch-colorPrimary.Mui-checked {
+  color: var(--accent)!important;
+}
+.MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+  background-color: var(--accent-light)!important;
+}
+.MuiDrawer-paper {
+  background-color: var(--background)!important;
+  color: var(--text-primary)!important;
 }

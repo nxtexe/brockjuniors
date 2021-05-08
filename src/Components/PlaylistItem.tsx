@@ -2,6 +2,7 @@ import React from 'react';
 import {MediaItem} from '../Rhythm';
 import ButtonBase from './ButtonBase';
 import moment from 'moment';
+import { format_from_duration } from '../common/utils';
 
 interface PlaylistItemProps {
     media_item : MediaItem;
@@ -12,7 +13,11 @@ export default function PlaylistItem(props : PlaylistItemProps) {
     return (
         <ButtonBase
             onLongPress={props.onLongPress}
-            delay={1500}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                if (props.onLongPress) props.onLongPress(e as any);
+            }}
+            delay={1000}
             onClick={() => {
                 if (props.onClick) props.onClick(props.media_item);
             }} style={{padding: 0, width: '100%', justifyContent: 'flex-start'}}
@@ -29,7 +34,7 @@ export default function PlaylistItem(props : PlaylistItemProps) {
                         <p className="caption">{props.media_item.author?.name}</p>
                     </div>
                     <div className="duration">
-                        <small>{moment.utc(props.media_item.duration*1000).format('m:ss')}</small>
+                        <small>{moment.utc(props.media_item.duration*1000).format(format_from_duration(props.media_item.duration))}</small>
                     </div>
                 </div>
                 

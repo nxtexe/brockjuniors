@@ -1,3 +1,5 @@
+import localforage from 'localforage';
+
 export function downloadFile(title : string, files : File[]) {
     files.map((file) => {
         let a = document.createElement("a");
@@ -76,4 +78,38 @@ export function enableScroll() {
     html.style.overflowY = "visible";
     html.style.overflowX = "visible";
     html.style.overscrollBehavior = "auto";
+}
+
+export function toggle_dark_mode(darko_mode : boolean) {
+    const theme = darko_mode ? 'darko-mode' : 'lighto-mode';
+    if (darko_mode) {
+        setThemeColour('#000000');
+    } else {
+        setThemeColour('#d8d8d8');
+    }
+    localforage.setItem('theme', theme)
+    .then(async () => {
+        const body = document.getElementsByTagName('body')[0];
+        body.className=theme;
+    })
+    .catch(e => {
+        throw e;
+    });
+}
+
+export function is_overflowing(el : any) {
+    var curOverf = el.style.overflow;
+    
+    if ( !curOverf || curOverf === "visible" )
+        el.style.overflow = "hidden";
+      
+    var isOverflowing = el.clientWidth < el.scrollWidth
+        || el.clientHeight < el.scrollHeight;
+      
+    el.style.overflow = curOverf;
+      
+    return isOverflowing;
+}
+export function format_from_duration(duration : number) {
+    return duration < 3600 ? duration < 600 ? 'm:ss' : 'mm:ss' : 'h:mm:ss';
 }

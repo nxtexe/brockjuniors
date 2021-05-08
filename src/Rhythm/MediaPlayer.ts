@@ -287,6 +287,8 @@ export class MediaPlayer {
                             media_item.source = this.audio_context.createMediaElementSource(audio_test);
                         
                             media_item.audio = audio_test;
+                            media_item.duration = audio_test.duration;
+                            console.log(audio_test.duration)
                             this.media_queue.enqueue(media_item);
 
                             if (this.media_queue.length === 1) this._can_play = true;
@@ -382,7 +384,7 @@ export class MediaPlayer {
                 const duration : number = moment(result.duration, 'mm:ss').diff(moment().startOf('day'), 'seconds');
 
                 return {
-                    duration: duration,
+                    duration: duration - 1,
                     name: result.title,
                     thumbnail: {
                         width: result.bestThumbnail?.width,
@@ -425,11 +427,13 @@ export class MediaPlayer {
         this._repeat = _repeat;
     }
 
-    public skipt_to(uuid : string) {
+    public skip_to(uuid : string) {
         this._queue_index = this.media_queue.queue_map[uuid];
         if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
         this.media_source.source = this.media_queue.queue[this._queue_index].source;
         this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+
+        this.play();
     }
     public remove() {
         this.media_queue.remove(this.media_queue.queue[this._queue_index]);

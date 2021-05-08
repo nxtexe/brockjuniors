@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Zoom from '@material-ui/core/Zoom';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import {enableScroll, disableScroll, setThemeColour } from '../common/utils';
+import {enableScroll, disableScroll } from '../common/utils';
 import '../css/Alert.css';
 
 interface IOptions {
@@ -48,14 +48,13 @@ export default class Alert extends React.Component {
 
     alert_event_handler(e : Event) {
         disableScroll();
-        setThemeColour("#743b06");
+        
         this.setState({...this.state, ...(e as CustomEvent).detail, show: true});
     }
 
     handleClose() {
         if (this._isMounted) {
             enableScroll();
-            setThemeColour("#E8760C");
             setTimeout(() => {
                 this.setState({show: false, cancelable: false, buttons: undefined, message: undefined, title: undefined, options: undefined});
             }, 100);

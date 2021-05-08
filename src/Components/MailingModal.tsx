@@ -35,7 +35,7 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                         if (this.props.onClose) this.props.onClose(e, "backdropClick");
                         Alert.alert(
                             "✨Thank You✨",
-                            "You've been added to the our mailing list! You'll be the first to receive updates as they happen.",
+                            "You've been added to our mailing list! You'll be the first to receive updates as they happen.",
                         );
                     }
                     this.setState({loading: false});

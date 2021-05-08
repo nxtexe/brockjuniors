@@ -9,7 +9,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     ({request}) => {
-      return request.destination === 'image' || (request.url.includes('api.allorigins.win') && request.destination !== 'audio');
+      return request.destination === 'image' || (request.url.includes('api.allorigins.win') && !request.url.includes('googlevideo') && request.destination !== 'video');
     },
     new workbox.strategies.CacheFirst({
       cacheName: 'images',

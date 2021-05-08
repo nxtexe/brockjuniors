@@ -38,7 +38,7 @@ function MobileDrawer(props : MobileDrawerProps) {
                                 <ListItem button key="About" onClick={() => props.history?.push('/about')}>
                                     <ListItemText primary="About" />
                                 </ListItem>
-                                <ListItem button key="Settings">
+                                <ListItem button key="Settings" onClick={() => props.history?.push('/settings')}>
                                     <ListItemText primary="Settings" />
                                 </ListItem>
                             </List>

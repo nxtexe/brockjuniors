@@ -2,6 +2,7 @@ import React from 'react';
 import './css/App.css';
 import About from './Screens/About';
 import Home from './Screens/Home';
+import Settings from './Screens/Settings'
 import {dark_theme} from './common/themes';
 import { ThemeProvider } from '@material-ui/styles';
 import GhostLayer from './Components/GhostLayer';
@@ -10,7 +11,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import MobileRythym from './Screens/MobileRhythm';
+import Rythym from './Screens/Rhythm';
 import Alert from './Components/Alert';
 
 function App() {
@@ -19,15 +20,17 @@ function App() {
         <Alert />
         <GhostLayer />
         <Router>
-          <MobileRythym />
+          <Rythym />
           <Switch>
             <Route exact path="/about" render={(props : any) => {
               return <About {...props} />
             }} />
             <Route exact path="/" render={(props:any) => {
               return <Home {...props} />
-            }}>
-            </Route>
+            }} />
+            <Route exact path="/settings" render={(props:any) => {
+              return <Settings {...props} />
+            }} />
           </Switch>
         </Router>
     </ThemeProvider>
