@@ -257,6 +257,9 @@
   .mobile.search-modal .close {
     display: none;
   }
+  .desktop.search-modal {
+    display: none;
+  }
 }
 
 /* desktop design */

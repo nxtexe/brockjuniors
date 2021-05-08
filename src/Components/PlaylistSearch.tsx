@@ -36,13 +36,14 @@ export default class PlaylistSearch extends React.Component<PlaylistSearchProps,
                         variant="flat"
                         autoFocus
                         placeholder="Search..."
+                        type="search"
+                        autoComplete="false"
+                        autoCapitalize="false"
                         value={this.props.search_query}
                         onChange={this.props.onChange}
-                        onKeyUp={(e) => {
-                            if (e.keyCode === 13) {
-                                e.preventDefault();
-                                this.props.onClick(e as any);
-                            }
+                        onEnter={(e) => {
+                            this.props.onClick(e as any);
+                            if (this.text_field) this.text_field.blur();
                         }}
                     />
                     <Button

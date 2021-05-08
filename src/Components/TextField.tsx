@@ -10,7 +10,8 @@ enum Variants {
 export type variants = keyof typeof Variants;
 
 interface TextFieldProps extends InputBaseProps {
-    variant : variants;
+    variant? : variants;
+    onEnter? : React.KeyboardEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 }
 interface TextFieldState {
 
@@ -20,6 +21,12 @@ export default class TextField extends React.Component<TextFieldProps, TextField
         return (
             <InputBase
                 {...this.props}
+                onKeyUp={(e) => {
+                    if (e.keyCode === 13 && this.props.onEnter) {
+                        e.preventDefault();
+                        this.props.onEnter(e);
+                    }
+                }}
                 className={`text-field ${this.props.error ? 'error' : ''} ${this.props.variant || 'default'} ${this.props.className || ''}`}
             />
         );
