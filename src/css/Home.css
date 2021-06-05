@@ -70,6 +70,8 @@
 }
 .home .ticker-block {
   display: flex;
+  align-items: flex-end;
+  height: 100%;
 }
 .home .mailing-list button {
   color: var(--accent);

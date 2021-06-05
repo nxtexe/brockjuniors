@@ -14,7 +14,10 @@ import {
 import Rythym from './Screens/Rhythm';
 import Alert from './Components/Alert';
 
+
+
 function App() {
+  
   return (
     <ThemeProvider theme={dark_theme}>
         <Alert />

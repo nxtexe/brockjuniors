@@ -32,12 +32,9 @@ import TabPanel from '../Components/TabPanel';
 import PlaylistItem from '../Components/PlaylistItem';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import Modal from '@material-ui/core/Modal';
-import TextField from '../Components/TextField';
-import Button from '../Components/Button';
 import moment from 'moment'
 import DefaultCover from '../assets/web_hi_res_512.png';
-import {format_from_duration, isMobile} from '../common/utils';
-import Collapse from '@material-ui/core/Collapse';
+import {format_from_duration, isMobile, generate_artwork} from '../common/utils';
 import DesktopNavbar from '../Components/DesktopNavbar';
 import PlaylistSearch from '../Components/PlaylistSearch';
 import '../css/Rhythm.css';
@@ -141,7 +138,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
             this.setState({buffering: false});
         });
 
-        this.media_player.on('change', (media_item : MediaItem) => {
+        this.media_player.on('change', async (media_item : MediaItem) => {
             if ('mediaSession' in window.navigator) {
                 const split_list : string[] = media_item.thumbnail.url.split('.');
 
@@ -151,9 +148,9 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                     album: 'Brock Juniors Rhythm',
                     artwork: [
                         {
-                            src: media_item.thumbnail.url,
+                            src: await generate_artwork(media_item.thumbnail.url),
                             sizes: `${media_item.thumbnail.width}x${media_item.thumbnail.height}`,
-                            type: `image/${split_list[split_list.length - 1]}`
+                            type: `image/png`
                         }
                     ]
                 });
@@ -301,18 +298,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
         this.setState({
             open_playlist_item_menu: true,
             playlist_item_anchor: e.target,
-            playlist_item: {
-                name: media_item.name,
-                uuid: media_item.uuid,
-                liked: media_item.liked,
-                author: {
-                    name: media_item.author?.name
-                },
-                duration: media_item.duration,
-                thumbnail: {
-                    url: media_item.thumbnail.url
-                }
-            }
+            playlist_item: media_item
         });
     }
 
@@ -403,7 +389,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                             <IconButton disabled={!this.media_player.queue.length ? true : false} onClick={() => {
                                 if (this.media_player.now_playing.liked) {
                                     this.media_player.now_playing.liked = false;
-                                    this.state.liked_queue.remove(this.media_player.now_playing);
+                                    this.state.liked_queue.remove(this.media_player.now_playing.uuid);
                                 } else {
                                     this.media_player.now_playing.liked = true;
                                     this.state.liked_queue.enqueue(this.media_player.now_playing);
@@ -423,7 +409,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                         </div>
                         <div className={`dislike ${this.state.dislike ? 'active' : ''}`}>
                             <IconButton disabled={!this.media_player.queue.length ? true : false} onClick={() => {
-                                this.media_player.remove();
+                                this.media_player.remove_playing();
                             }}>
                             {this.state.dislike ? <ThumbDownSmallIcon /> : <ThumbDownIcon />}
                             </IconButton>
@@ -485,7 +471,6 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                         </div>
                     </div>
                     <SwipeableDrawer onTouchStart={(e : any) => {
-                        console.log(e.defaultMuiPrevented)
                         e.defaultMuiPrevented = true;
                     }} anchor="right" className="playlist-drawer" open={this.state.open_playlist} onOpen={this.toggle_playlist} onClose={this.toggle_playlist}>
                         <div className="playlist screen-grid">
@@ -517,9 +502,40 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                                     this.playlist_click(this.state.playlist_item);
                                     this.close_playlist_item_menu();
                                 }}>Play</MenuItem>
-                                <MenuItem onClick={() => {}}>Play Next</MenuItem>
-                                <MenuItem onClick={() => {}}>{!this.state.playlist_item.liked ? 'Like' : 'Unlike'}</MenuItem>
-                                <MenuItem onClick={() => {}}>Dislike</MenuItem>
+                                <MenuItem onClick={() => {
+                                    // if (this.state.playlist_page === 0) {
+                                    //     this.media_player.play_next(this.state.curated_queue.media_item(this.state.playlist_item.uuid));
+                                    // } else {
+                                    //     this.media_player.play_next(this.state.liked_queue.media_item(this.state.playlist_item.uuid));
+                                    // }
+                                    // this.setState({open_playlist_item_menu: false});
+                                }}>Play Next</MenuItem>
+                                <MenuItem onClick={() => {
+                                    if (this.state.playlist_page === 0) {
+                                        if (this.state.curated_queue.media_item(this.state.playlist_item.uuid).liked) {
+                                            this.state.curated_queue.media_item(this.state.playlist_item.uuid).liked = false;
+                                            this.state.liked_queue.remove(this.state.playlist_item.uuid);
+                                        } else {
+                                            this.state.curated_queue.media_item(this.state.playlist_item.uuid).liked = true;
+                                            this.state.liked_queue.enqueue(this.state.curated_queue.media_item(this.state.playlist_item.uuid));
+                                        }
+                                    } else {
+                                        this.state.liked_queue.media_item(this.state.playlist_item.uuid).liked = !this.state.liked_queue.media_item(this.state.playlist_item.uuid).liked;
+                                        this.state.liked_queue.remove(this.state.playlist_item.uuid);
+                                    }
+                                }}>
+                                    {!this.state.playlist_item.liked ? 'Like' : 'Unlike'}
+                                </MenuItem>
+                                <MenuItem onClick={() => {
+                                    if (this.state.playlist_page === 0) {
+                                        this.state.curated_queue.remove(this.state.playlist_item.uuid);
+                                    } else {
+                                        this.state.liked_queue.remove(this.state.playlist_item.uuid)
+                                    }
+                                    this.setState({open_playlist_item_menu: false});
+                                }}>
+                                    Dislike
+                                </MenuItem>
                                 <MenuItem onClick={() => {}}>Share</MenuItem>
                             </Menu>
                             <div className="playlist-add" style={this.state.playlist_page !== 1 ? {display: 'none'} : {}}>

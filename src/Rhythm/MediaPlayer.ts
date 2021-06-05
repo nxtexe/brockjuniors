@@ -435,11 +435,14 @@ export class MediaPlayer {
 
         this.play();
     }
-    public remove() {
-        this.media_queue.remove(this.media_queue.queue[this._queue_index]);
+    public remove_playing() {
+        this.media_queue.remove(this.media_queue.queue[this._queue_index].uuid);
         if (this.media_source.callbacks.change) this.media_source.callbacks.change(this.media_queue.queue[this._queue_index]);
         this.media_source.source = this.media_queue.queue[this._queue_index].source;
         this.media_source.audio = this.media_queue.queue[this._queue_index].audio;
+    }
+    public remove(uuid : string) {
+        this.media_queue.remove(uuid);
     }
 
     get queue_index() : number {
@@ -448,5 +451,23 @@ export class MediaPlayer {
 
     set queue_index(_queue_index : number) {
         this._queue_index = _queue_index;
+    }
+
+    public play_next(media_item : MediaItem) {
+        const index = this.media_queue.map[media_item.uuid];
+
+        if (index) {
+            if ((index + 1) < this.media_queue.length) {
+                this.media_queue.swap(media_item.uuid, this.media_queue.queue[this._queue_index + 1].uuid);
+            } else {
+                const temp = this.media_queue.queue[index];
+                this.media_queue.queue.splice(index, 1);
+                this.media_queue.enqueue(temp);
+            }
+        } else {
+            this.media_queue.queue.splice(this.queue_index + 1, 0, media_item);
+        }
+
+        console.log(this.media_queue.queue)
     }
 }

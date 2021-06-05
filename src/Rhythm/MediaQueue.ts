@@ -13,14 +13,14 @@ export class MediaQueue {
     private _is_shuffled : boolean = false;
     private _id : string = uuid4();
     
-    public remove(media_item : MediaItem) {
-        const index = this._queue_map[media_item.uuid];
+    public remove(uuid : string) {
+        const index = this._queue_map[uuid];
         this._queue.splice(index, 1);
-        delete this._queue_map[media_item.uuid];
+        delete this._queue_map[uuid];
         this._length -= 1;
-        if (this._shuffled_map[media_item.uuid]) {
+        if (this._shuffled_map[uuid]) {
             this._shuffled.splice(index, 1);
-            delete this._shuffled_map[media_item.uuid];
+            delete this._shuffled_map[uuid];
         }
     }
     public enqueue(media_item : MediaItem) {
@@ -98,5 +98,29 @@ export class MediaQueue {
         }
 
         this._is_shuffled = true;
+    }
+
+    public media_item (uuid : string) : MediaItem {
+        if (!this._is_shuffled) {
+            const index = this._queue_map[uuid];
+            return this._queue[index];
+        } else {
+            const index = this._shuffled_map[uuid];
+            return this._queue[index];
+        }
+    }
+
+    get map() {
+        return this._is_shuffled ? this._shuffled_map : this.queue_map;
+    }
+
+    public swap (uuid_1 : string, uuid_2 : string) {
+        const index_1 = this.map[uuid_1];
+        const index_2 = this.map[uuid_2];
+        const temp = this.queue[index_1];
+        this.queue[index_1] = this.queue[index_2];
+        this.queue[index_2] = temp;
+        this.map[uuid_1] = index_2;
+        this.map[uuid_2] = index_1;
     }
 }

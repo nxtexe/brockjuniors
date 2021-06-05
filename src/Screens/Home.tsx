@@ -12,6 +12,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import MobileRhythm from './Rhythm';
 import MailingModal from '../Components/MailingModal';
 
+
 interface HomeProps {
     history : any;
 }
@@ -59,7 +60,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         open_mailing_modal: false
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         window.addEventListener('rhythm-close', () => {
             this.setState({open_rhythm: false});
         }, true);

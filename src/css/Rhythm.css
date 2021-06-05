@@ -412,8 +412,8 @@
   }
   .playlist.screen-grid {
     margin: 0;
-    padding: 15px;
-    padding-top: 30px;
+    padding-bottom: 15px;
+    padding-top: 40px;
   }
   .playlist .desktop-nav-wrap {
     left: 0;
@@ -435,10 +435,6 @@
   .playlist .playlist-add {
     grid-row: 2;
     grid-column: 12;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    transform: translateX(16px);
   }
   .playlist .playlist-item {
     display: grid;
@@ -446,7 +442,7 @@
     grid-template-rows: 1fr;
   }
   .playlist .tabpanel-page button {
-    margin-top: 15px;
+    padding: 15px!important;
   }
   .playlist .tabpanel-page {
     padding-bottom: 15px;
