@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from './TextField';
 import Button from './Button';
 import IconButton from './IconButton';
-import ChevronDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import ChevronDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface PlaylistSearchProps {
     search_query : string;

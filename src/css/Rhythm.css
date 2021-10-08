@@ -105,7 +105,7 @@
     align-items: flex-start;
     flex-direction: column;
     overflow-x: clip;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .rhythm .like {
     grid-row: 9;

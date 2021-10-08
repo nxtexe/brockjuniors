@@ -221,10 +221,10 @@ body {
 .text-field.error {
   border-color: var(--error-main);
 }
-.MuiSwitch-switchBase {
+.MuiSwitch-switchBase, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root {
   color: var(--button-background)!important;
 }
-.MuiSwitch-colorPrimary.Mui-checked {
+.MuiSwitch-colorPrimary.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
   color: var(--accent)!important;
 }
 .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
@@ -239,4 +239,14 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance:none;
+}
+.MuiDataGrid-root, .MuiDataGrid-footerContainer, .css-jtlhu6-MuiTablePagination-root {
+  color: var(--text-primary)!important;
+}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  color: inherit!important;
+  opacity: 0.7;
+}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-Selected {
+  opacity: 1;
 }

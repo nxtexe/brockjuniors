@@ -1,9 +1,9 @@
 import React from 'react';
 import DesktopNavbar from '../Components/DesktopNavbar';
 import IconButton from '../Components/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Switch from '@material-ui/core/Switch';
-import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Switch from '@mui/material/Switch';
+import Divider from '@mui/material/Divider';
 import {toggle_dark_mode} from '../common/utils';
 import localforage from 'localforage';
 import '../css/Settings.css';

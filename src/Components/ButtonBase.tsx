@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ButtonBase as Base} from '@material-ui/core';
+import {ButtonBase as Base} from '@mui/material';
 import {isMobile} from '../common/utils';
 import '../css/Button.css';
 
@@ -20,6 +20,7 @@ export type variants = keyof typeof Variants;
 
 export interface ButtonProps {
     children? : any;
+    id? : string;
     variant? : variants;
     colour? : colours;
     disabled? : boolean;
@@ -61,6 +62,7 @@ export default function ButtonBase(props : ButtonProps) {
     return (
         <Base
             style={props.style}
+            id={props.id || ""}
             disableRipple={props.disableRipple}
             onClick={props.onClick}
             disabled={props.disabled || false}

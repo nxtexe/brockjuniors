@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal, { ModalProps } from '@material-ui/core/Modal';
+import Modal, { ModalProps } from '@mui/material/Modal';
 import TextField from '../Components/TextField';
 import Button from '../Components/Button';
-import Slide from '@material-ui/core/Slide';
-import ClearIcon from '@material-ui/icons/Clear';
+import Slide from '@mui/material/Slide';
+import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '../Components/IconButton';
 import {ValidateEmail} from '../common/utils';
 import Alert from './Alert';
@@ -24,12 +24,12 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
 
     handle_submit = (e : any) => {
         if (!this.state.loading) {
-            try {
-                this.setState({loading: true}, async () => {
+            this.setState({loading: true}, async () => {
+                try {
                     const response = await axios.post('/api/mailing', {
                         email: this.state.email
                     });
-
+    
                     if (response.status === 200) {
                         this.setState({loading: false, email: ''});
                         if (this.props.onClose) this.props.onClose(e, "backdropClick");
@@ -39,13 +39,43 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                         );
                     }
                     this.setState({loading: false});
-                });
+                } catch (e : any) {
+                    this.setState({loading: false, email: ''});
+                    if (this.props.onClose) this.props.onClose(e, "backdropClick");
+                    Alert.alert(
+                        "You're Already Updated!",
+                        "Your email is already on our mailing list. Is this a mistake?",
+                        [
+                            {
+                                text: "Yes",
+                                title: "Yes",
+                                style: "Ok",
+                                onClick: () => {
+                                    axios.post('/api/mailing/remove', {
+                                        data: [{email: this.state.email}]
+                                    })
+                                    .then(() => {
+                                        Alert.alert(
+                                            "You're All Set!",
+                                            "Your email has been removed from our mailing list! We hope you'll join us again soon. 👋🏾"
+                                        )
+                                    })
+                                    .catch(() => {});
+                                }
+                            },
+                            {
+                                text: "No",
+                                title: "No",
+                                style: "cancel",
+                                onClick: () => {}
+                            }
+                        ]
+                    )
+                    this.setState({loading: false});
+                }
                 
-    
-                
-            } catch(e) {
-                this.setState({loading: false});
-            }
+            });
+                   
         }
 
          
@@ -71,6 +101,7 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                                     error={!ValidateEmail(this.state.email)}
                                     variant="flat"
                                     onChange={(e) => this.setState({email: e.target.value})}
+                                    onEnter={this.handle_submit}
                                     value={this.state.email}
                                     autoFocus
                                     placeholder='example@email.com'

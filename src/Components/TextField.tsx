@@ -1,5 +1,5 @@
 import React from 'react';
-import InputBase, { InputBaseProps } from '@material-ui/core/InputBase';
+import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 
 enum Variants {
     default,

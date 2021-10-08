@@ -1,8 +1,8 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Zoom from '@material-ui/core/Zoom';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Paper from '@mui/material/Paper';
+import Zoom from '@mui/material/Zoom';
+import Button from '@mui/material/Button';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import {enableScroll, disableScroll } from '../common/utils';
 import '../css/Alert.css';
 
@@ -10,11 +10,18 @@ interface IOptions {
     cancelable : boolean;
 }
 
+enum ButtonTypes {
+    Ok,
+    cancel,
+}
+
+export type button_types = keyof typeof ButtonTypes;
+
 interface IButton {
     onClick : Function;
     text : string;
     title : string;
-    style : string;
+    style? : button_types;
 }
 export default class Alert extends React.Component {
     private _isMounted : boolean;
@@ -70,7 +77,7 @@ export default class Alert extends React.Component {
         }
     }
 
-    static alert(title : string = "", message : string = "", buttons : [] = [], options : IOptions = {cancelable: true}) {
+    static alert(title : string = "", message : string = "", buttons : IButton[] = [], options : IOptions = {cancelable: true}) {
         const event : CustomEvent = new CustomEvent("alert", {
             detail: {
                 title: title,
@@ -105,7 +112,7 @@ export default class Alert extends React.Component {
                                 </div> : <div className="alert-buttons row">
                                     <div className="col">
                                         <div className="row">
-                                            {this.state.buttons && this.state.buttons.filter((item : IButton) => !item.style || item.style === "" || item.style === "Ok").map((item : IButton, index) => {
+                                            {this.state.buttons && this.state.buttons.filter((item : IButton) => !item.style || item.style === "Ok").map((item : IButton, index) => {
                                                 return (
                                                     <Button key={index} onClick={() => {
                                                         this.handleClose();

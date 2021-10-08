@@ -1,37 +1,37 @@
 import React, {ChangeEvent} from 'react';
-import Slide from '@material-ui/core/Slide';
+import Slide from '@mui/material/Slide';
 import IconButton from '../Components/IconButton';
-import ChevronDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import ShareIcon from '@material-ui/icons/Share';
-import Slider from '@material-ui/core/Slider';
-import RepeatIcon from '@material-ui/icons/Repeat';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
+import ChevronDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ShareIcon from '@mui/icons-material/Share';
+import Slider from '@mui/material/Slider';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 import {ReactComponent as ShuffleIconSmall} from '../assets/Shuffle.svg';
-import VolumeDownIcon from '@material-ui/icons/VolumeDown';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import {ReactComponent as ThumbUpSmallIcon} from '../assets/ThumbUpSmall.svg';
 import {ReactComponent as ThumbDownSmallIcon} from '../assets/ThumbDownSmall.svg';
 import {MediaPlayer, MediaItem, MediaQueue} from '../Rhythm';
 import {ReactComponent as RepeatOneSmallIcon} from '../assets/RepeatOne.svg';
 import {ReactComponent as RepeatSmallIcon} from '../assets/Repeat.svg';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import TabPanel from '../Components/TabPanel';
 import PlaylistItem from '../Components/PlaylistItem';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import Modal from '@material-ui/core/Modal';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import Modal from '@mui/material/Modal';
 import moment from 'moment'
 import DefaultCover from '../assets/web_hi_res_512.png';
 import {format_from_duration, isMobile, generate_artwork} from '../common/utils';
@@ -243,7 +243,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
         }
 
     }
-    handle_scrub(event: ChangeEvent<{}>, scrub_pos: number | number[]) {
+    handle_scrub(event: React.SyntheticEvent | Event, scrub_pos: number | Array<number>) {
         if (this.media_player) {
             if (typeof scrub_pos !== "number") {
                 const current_time : number = (scrub_pos[0] / 100) * this.state.media_item.duration; 
@@ -259,7 +259,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
         }
     }
 
-    animate_scrub(event: ChangeEvent<{}>, scrub_pos: number | number[]) {
+    animate_scrub(event: Event, scrub_pos: number | Array<number>, activeThumb: number) {
         if (typeof scrub_pos !== "number") {
             const current_time : number = (scrub_pos[0] / 100) * this.state.media_item.duration;
             this.setState({scrub_pos: scrub_pos[0], current_time: current_time});
@@ -269,7 +269,7 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
         }
     }
 
-    handle_volume(event: ChangeEvent<{}>, volume: number | number[]) {
+    handle_volume(event: Event, volume: number | Array<number>, activeThumb: number) {
         // if (this.media_player.muted) {
         //     this.media_player.muted = false;
         // }

@@ -1,5 +1,5 @@
 import IconButton from './IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import '../css/Navbar.css';
 import React from 'react';
 import {ReactComponent as BJR} from '../assets/bjr.svg';

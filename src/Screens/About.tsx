@@ -4,12 +4,12 @@ import TxhjImg from "../assets/night-life-tahj.jpg";
 import NxteImg from "../assets/nxte.jpg";
 import NicoImg from '../assets/nicostrudel.jpg';
 import BrockImg from '../assets/profile-picture.jpg';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '../Components/IconButton';
-import Modal from '@material-ui/core/Modal';
-import ClearIcon from '@material-ui/icons/Clear';
-import LaunchIcon from '@material-ui/icons/Launch';
-import ShareIcon from '@material-ui/icons/Share';
+import Modal from '@mui/material/Modal';
+import ClearIcon from '@mui/icons-material/Clear';
+import LaunchIcon from '@mui/icons-material/Launch';
+import ShareIcon from '@mui/icons-material/Share';
 import DesktopNavbar from '../Components/DesktopNavbar';
 
 enum Names {

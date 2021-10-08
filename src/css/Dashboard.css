@@ -1,0 +1,83 @@
+.admin-login {
+    height: 100vh;
+    max-height: 400px;
+    width: 100vw;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+#brock-img {
+    width: 50%;
+    position: relative;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: colour-animation 3s alternate infinite;
+    
+}
+#brock-img svg {
+    width: 100%;
+    
+}
+@keyframes colour-animation {
+    0% {
+    color: #A3F050;
+    color: hsl(89, 85%, 63%);  }
+    10% {
+    color: #53F050;
+    color: hsl(119, 85%, 63%);  }
+    20% {
+    color: #50F09D;
+    color: hsl(149, 85%, 63%);  }
+    30% {
+    color: #50F0EE;
+    color: hsl(179, 85%, 63%);  }
+    40% {
+    color: #50A3F0;
+    color: hsl(209, 85%, 63%);  }
+    50% {
+    color: #5053F0;
+    color: hsl(239, 85%, 63%);  }
+    60% {
+    color: #9D50F0;
+    color: hsl(269, 85%, 63%);  }
+    70% {
+    color: #EE50F0;
+    color: hsl(299, 85%, 63%);  }
+    80% {
+    color: #F050A3;
+    color: hsl(329, 85%, 63%);  }
+    90% {
+    color: #F05053;
+    color: hsl(359, 85%, 63%);  }
+    95% {
+    color: #F09D50;
+    color: hsl(29, 85%, 63%);  }
+    100% {
+    color: #A3F050;
+    color: hsl(89, 85%, 63%);  }
+}
+.admin-dashboard .screen-grid {
+    margin: 0!important;
+    padding: 15px;
+}
+.admin-dashboard .page-title {
+    grid-column: span 12 / 13;
+    grid-row: 1;
+}
+.admin-dashboard .data-grid {
+    grid-column: span 12 / 13;
+    grid-row: span 14 / 16;
+    color: var(--text-secondary);
+}
+.admin-loading {
+    top: 0!important;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

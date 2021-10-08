@@ -126,7 +126,6 @@ export class MediaSource {
 
             this._audio.play()
             .catch((e) => {
-                console.log(e)
                 if (this._callbacks.error) this._callbacks.error(e);
             });
 

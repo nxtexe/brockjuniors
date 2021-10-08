@@ -1,6 +1,6 @@
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import ButtonBase from '@mui/material/ButtonBase';
 import {useState} from 'react';
 import {isMobile} from '../common/utils';
 

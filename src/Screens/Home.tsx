@@ -2,13 +2,13 @@ import React from 'react';
 import DesktopNavbar from '../Components/DesktopNavbar';
 import '../css/Home.css';
 import Button from '../Components/Button';
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import ClothesCarousel from '../Components/ClothesCarousel';
 import IconButton from '../Components/IconButton';
 import AppBar from '../Components/AppBar';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import MobileDrawer from '../Components/MobileDrawer';
-import ClearIcon from '@material-ui/icons/Clear';
+import ClearIcon from '@mui/icons-material/Clear';
 import MobileRhythm from './Rhythm';
 import MailingModal from '../Components/MailingModal';
 

@@ -58,6 +58,8 @@ export class MediaPlayer {
     private media_source : MediaSource = new MediaSource(this.audio_context);
     private _repeat : number = 1;
     private played_once : boolean = false;
+    private cookie : string = 'VISITOR_INFO1_LIVE=Ka7zsvEJNvk; CONSENT=YES+JM.en+201907; HSID=AhapunHgphlV4WnWZ; SSID=AoD8cUwInpcKIRiGx; APISID=beZybPK90G6-LzeR/AQOdm8S045sl4ffYF; SAPISID=ReWERyFW_VxCFlva/Acvd9RvQGrfhPwxmp; __Secure-3PAPISID=ReWERyFW_VxCFlva/Acvd9RvQGrfhPwxmp; PREF=f6=40000400&tz=America.Bogota&f1=50000000&al=en&f5=20030; _ga=GA1.2.478900556.1620526294; YTV_CLC=locsrc=1&locs=2&tz=America%2FBogota; _gcl_au=1.1.1438547175.1620526300; LOGIN_INFO=AFmmF2swRgIhANyWP1bhVBk-pg3XPcyvH2SGITIzUiW4QduDhfgPJOxyAiEAniJQutQngXar6bhvoAlKErvEoatu_P6-32Ld8HI5fMk:QUQ3MjNmeXhEbU5QU25weUNjdy1STjZZNFpIb002dkt6anI3M2tCaVN3T3VtUVB5VDFJZTkxX0JBM0ZFc0x2Y1kxNXVjVWpTZGlxdTA4dlBva3hmNXh1YWNZOVM5ZGFnRlRYY2w0dUp2am5DRFB6dXVIWUdoQjVuZ1h4N2NuaWVmUlBuOWR1anZKMDh2U3AweDZyeVl2cU9yaUdQSkJPQ0ZIME9MMG9Ud2VhY2JYUWh2QTVKVmdBZk1rTnJIU29aQUExZDNRMVNnSmVvQmJaSGljakx1eVJUQ0pkWWhuejdsU0d1NVdXUkpWb2pNTlZ4YzdWbjhyN1Q0N2E5V0VoUW1yMHRnRzVZOWZ4Qg==; YSC=1HmSl9Mye8w; wide=1; SID=-gcweKEEP4GAKOiT6ld0O2eSv4UZPE7ZXcHYw_wZoACt3cXROSKOEI6BJl21ceorsdRx2Q.; __Secure-3PSID=-gcweKEEP4GAKOiT6ld0O2eSv4UZPE7ZXcHYw_wZoACt3cXRc5E0_dStHbpmwkUD2J1tdA.; SIDCC=AJi4QfH3qJ5ZgJmUONEeoIoTwzMl3epNzdRatiaKJpA4ZiXQIysITzH6-o96pLJCKG_aIUP12so; __Secure-3PSIDCC=AJi4QfGpX1XXWVyW4yVstjgZx9lRooPuszmuXl0Pz6yCqXeH5P-xRNQ0luus2atqs7U9C1JC8SM';
+    private user_agent : string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36";
     constructor() {
         this.media_source.addEventListener('ended',  this._handle_track_end.bind(this), true);
         this.media_source.addEventListener('error', (e) => {
@@ -253,6 +255,10 @@ export class MediaPlayer {
     public async add_to_queue(media_item : MediaItem) {
         const info = await ytdl.getInfo(media_item.url, {
             requestOptions: {
+                headers: {
+                    "user-agent": this.user_agent,
+                    cookie: this.cookie
+                },
                 transform: (parsed : any) => {
                     return {
                         host: 'api.allorigins.win',
@@ -288,7 +294,6 @@ export class MediaPlayer {
                         
                             media_item.audio = audio_test;
                             media_item.duration = audio_test.duration;
-                            console.log(audio_test.duration)
                             this.media_queue.enqueue(media_item);
 
                             if (this.media_queue.length === 1) this._can_play = true;
@@ -360,6 +365,10 @@ export class MediaPlayer {
             limit: 15,
             pages: 1,
             requestOptions: {
+                headers: {
+                    "user-agent": this.user_agent,
+                    cookie: this.cookie
+                },
                 transform: (parsed : any) => {
                     //format from:
                     //https://www.youtube.com/results?gl=US&hl=en&search_query=Kendrick%20Lamar
@@ -467,7 +476,5 @@ export class MediaPlayer {
         } else {
             this.media_queue.queue.splice(this.queue_index + 1, 0, media_item);
         }
-
-        console.log(this.media_queue.queue)
     }
 }
