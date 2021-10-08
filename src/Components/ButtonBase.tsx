@@ -33,6 +33,8 @@ export interface ButtonProps {
     onContextMenu? : React.MouseEventHandler<HTMLButtonElement>;
     onLongPress? : React.TouchEventHandler<HTMLButtonElement>;
     delay? : number;
+    tabindex? : number;
+    onMouseDown? : Function;
 }
 export default function ButtonBase(props : ButtonProps) {
     let timer_id : number;
@@ -61,6 +63,7 @@ export default function ButtonBase(props : ButtonProps) {
     };
     return (
         <Base
+            tabIndex={props.tabindex}
             style={props.style}
             id={props.id || ""}
             disableRipple={props.disableRipple}

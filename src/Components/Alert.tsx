@@ -104,6 +104,7 @@ export default class Alert extends React.Component {
                                     <p className="alert-body-text">{this.state.message}</p>
                                 </div>
                                 {this.state.buttons && !this.state.buttons.length ? <div className="alert-buttons row">
+                                    <div className="col"></div>
                                     <div className="col">
                                         <div className="row" style={{justifyContent: 'flex-start', marginLeft: '25%'}}>
                                             <Button onClick={() => this.handleClose()}>Ok</Button>

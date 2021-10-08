@@ -5,7 +5,7 @@
   transform: translate(-50%, -50%);
   z-index: 1000;
   background-color: transparent;
-  min-width: 30vw;
+  max-width: 30vw;
   cursor: pointer;
 }
 .alert-body {

@@ -31,12 +31,12 @@ import SwipeableViews from 'react-swipeable-views';
 import TabPanel from '../Components/TabPanel';
 import PlaylistItem from '../Components/PlaylistItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import Modal from '@mui/material/Modal';
 import moment from 'moment'
 import DefaultCover from '../assets/web_hi_res_512.png';
 import {format_from_duration, isMobile, generate_artwork} from '../common/utils';
 import DesktopNavbar from '../Components/DesktopNavbar';
 import PlaylistSearch from '../Components/PlaylistSearch';
+import DesktopPlaylistSearch from '../Components/DesktopPlaylistSearch';
 import '../css/Rhythm.css';
 
 interface ShortMediaItem {
@@ -559,20 +559,20 @@ export default class MobileRythym extends React.Component<RhythmProps, RhythmSta
                                     })}
                                 </TabPanel>
                             </SwipeableViews>
-                            <Modal className="mobile search-modal" open={this.state.open_search_modal} onClose={this.toggle_search_modal}>
-                                <Slide direction="up" in={this.state.open_search_modal}>
-                                    <PlaylistSearch
-                                        search_query={this.state.search_query}
-                                        className={`${this.state.searching ? 'loading' : ''}`}
-                                        onChange={(e) => this.setState({search_query: e.target.value, searching: false})}
-                                        onClick={this.submit_search}
-                                    />
-                                </Slide>
-                            </Modal>
+                            
+                            <PlaylistSearch
+                                in={this.state.open_search_modal}
+                                search_query={this.state.search_query}
+                                className={`${this.state.searching ? 'loading' : ''}`}
+                                onChange={(e) => this.setState({search_query: e.target.value, searching: false})}
+                                onClick={this.submit_search}
+                                onClose={this.toggle_search_modal}
+                            />
+                        
                         </div>
                     </SwipeableDrawer>
                     <div className={`desktop search-modal ${this.state.open_search_modal && this.state.open_playlist ? 'open' : 'close'}`}>
-                        <PlaylistSearch
+                        <DesktopPlaylistSearch
                             in={this.state.open_search_modal && this.state.open_playlist}
                             search_query={this.state.search_query}
                             className={`${this.state.searching ? 'loading' : ''}`}

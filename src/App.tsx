@@ -40,7 +40,7 @@ class App extends React.Component<AppProps, AppState> {
       this.setState({admin_login: true, loading: false});
     })
     .catch(() => {
-      this.setState({admin_login: false, loading: true});
+      this.setState({admin_login: false, loading: false});
     });
   }
 

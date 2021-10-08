@@ -11,7 +11,7 @@ import MobileDrawer from '../Components/MobileDrawer';
 import ClearIcon from '@mui/icons-material/Clear';
 import MobileRhythm from './Rhythm';
 import MailingModal from '../Components/MailingModal';
-
+import Alert from '../Components/Alert';
 
 interface HomeProps {
     history : any;
@@ -67,13 +67,17 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     toggle_rhythm = () => {
-        this.setState({open_rhythm: !this.state.open_rhythm}, () => {
-            if (this.state.open_rhythm) {
-                MobileRhythm.open();
-            } else {
-                MobileRhythm.close();
-            }
-        });
+        Alert.alert(
+            "Feature Unavailable",
+            "Rhythm isn't feeling very well right now 🤖🤒. Please be patient as we're working to get it running again 🎶⚙🔧."
+        );
+        // this.setState({open_rhythm: !this.state.open_rhythm}, () => {
+        //     if (this.state.open_rhythm) {
+        //         MobileRhythm.open();
+        //     } else {
+        //         MobileRhythm.close();
+        //     }
+        // });
     }
     render() {
         return (

@@ -40,7 +40,7 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                     }
                     this.setState({loading: false});
                 } catch (e : any) {
-                    this.setState({loading: false, email: ''});
+                    
                     if (this.props.onClose) this.props.onClose(e, "backdropClick");
                     Alert.alert(
                         "You're Already Updated!",
@@ -51,16 +51,20 @@ export default class MailingModal extends React.Component<MailingModalProps, Mai
                                 title: "Yes",
                                 style: "Ok",
                                 onClick: () => {
-                                    axios.post('/api/mailing/remove', {
-                                        data: [{email: this.state.email}]
-                                    })
-                                    .then(() => {
-                                        Alert.alert(
-                                            "You're All Set!",
-                                            "Your email has been removed from our mailing list! We hope you'll join us again soon. 👋🏾"
-                                        )
-                                    })
-                                    .catch(() => {});
+                                    const email : string = this.state.email;
+                                    setTimeout(() => {
+                                        axios.post('/api/mailing/remove', {
+                                            data: [{email: email}]
+                                        })
+                                        .then(() => {
+                                            Alert.alert(
+                                                "You're All Set!",
+                                                "Your email has been removed from our mailing list! We hope you'll join us again soon. 👋🏾"
+                                            )
+                                        })
+                                        .catch((e : any) => {console.log(e)});
+                                    }, 500);
+                                    this.setState({loading: false, email: ''});
                                 }
                             },
                             {

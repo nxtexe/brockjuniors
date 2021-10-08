@@ -3,6 +3,8 @@ import TextField from './TextField';
 import Button from './Button';
 import IconButton from './IconButton';
 import ChevronDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Slide from '@mui/material/Slide';
+import Modal from '@mui/material/Modal';
 
 interface PlaylistSearchProps {
     search_query : string;
@@ -26,35 +28,39 @@ export default class PlaylistSearch extends React.Component<PlaylistSearchProps,
     }
     render() {
         return (
-            <div className="search-modal-content">
-                <div className="top-notch"></div>
-                <IconButton className="close" onClick={this.props.onClose}>
-                    <ChevronDownIcon />
-                </IconButton>
-                <div className="input-group">
-                    <TextField
-                        variant="flat"
-                        autoFocus
-                        placeholder="Search..."
-                        type="search"
-                        autoComplete="false"
-                        autoCapitalize="false"
-                        value={this.props.search_query}
-                        onChange={this.props.onChange}
-                        onEnter={(e) => {
-                            this.props.onClick(e as any);
-                            if (this.text_field) this.text_field.blur();
-                        }}
-                    />
-                    <Button
-                        className={this.props.className}
-                        onClick={this.props.onClick}
-                        variant="flat"
-                    >
-                            Search
-                    </Button>
-                </div>
-            </div>
+            <Modal className="mobile search-modal" open={this.props.in || false} onClose={this.props.onClose}>
+                <Slide direction="up" in={this.props.in}>
+                    <div className="search-modal-content">
+                        <div className="top-notch"></div>
+                        <IconButton className="close" onClick={this.props.onClose}>
+                            <ChevronDownIcon />
+                        </IconButton>
+                        <div className="input-group">
+                            <TextField
+                                variant="flat"
+                                autoFocus
+                                placeholder="Search..."
+                                type="search"
+                                autoComplete="false"
+                                autoCapitalize="false"
+                                value={this.props.search_query}
+                                onChange={this.props.onChange}
+                                onEnter={(e) => {
+                                    this.props.onClick(e as any);
+                                    if (this.text_field) this.text_field.blur();
+                                }}
+                            />
+                            <Button
+                                className={this.props.className}
+                                onClick={this.props.onClick}
+                                variant="flat"
+                            >
+                                    Search
+                            </Button>
+                        </div>
+                    </div>
+                </Slide>
+            </Modal>
         );
     }
 }

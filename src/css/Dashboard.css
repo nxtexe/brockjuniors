@@ -81,3 +81,9 @@
     justify-content: center;
     align-items: center;
 }
+.admin-login #title {
+    text-align: center;
+}
+.admin-login .login-form .text-field {
+    width: 269px;
+}
