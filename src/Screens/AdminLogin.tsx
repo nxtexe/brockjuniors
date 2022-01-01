@@ -1,17 +1,22 @@
 import React from 'react';
 import TextField from '../Components/TextField';
 import Button from '../Components/Button';
-import {ReactComponent as BrockSvg} from '../assets/bjr.svg';
+import {ReactComponent as BrockSvg} from '../assets/icons/bjr.svg';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '../Components/IconButton';
+import {Navigation} from 'react-motion-router';
 import '../css/Dashboard.css';
 import axios from 'axios';
 
 interface AdminLoginProps {
-    history : any;
-    login : Function;
+    navigation: Navigation;
+    route: {
+        params: {
+            login: Function
+        }
+    };
 }
 
 interface AdminLoginState {
@@ -38,7 +43,7 @@ export default class AdminLogin extends React.Component<AdminLoginProps, AdminLo
             try {
                 await axios.post('/api/login/admin', {username: this.state.username, password: this.state.password});
                 
-                this.props.login();
+                this.props.route.params.login();
                 
             } catch (e: any) {
                 if (e.response && e.response.status === 401) {

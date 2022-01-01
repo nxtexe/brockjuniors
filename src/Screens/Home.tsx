@@ -9,12 +9,17 @@ import AppBar from '../Components/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import MobileDrawer from '../Components/MobileDrawer';
 import ClearIcon from '@mui/icons-material/Clear';
-import MobileRhythm from './Rhythm';
+import Rhythm from './Rhythm';
 import MailingModal from '../Components/MailingModal';
-import Alert from '../Components/Alert';
+import {Navigation} from 'react-motion-router';
 
 interface HomeProps {
-    history : any;
+    navigation : Navigation;
+    route: {
+        params: {
+            rhythm: string
+        } | undefined;
+    }
 }
 
 interface HomeState {
@@ -32,21 +37,11 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                 <div key={i} className="wrap" style={{bottom: `${(i / 24) * 100}%`}}>
                     <div className="ticker" style={{animationDelay: `${Math.random() * 10}s`}}>
                         <div className="ticker-block">
-                            <p>
-                            BROCK JUNIORS
-                            </p>
-                            <p>
-                            BROCK JUNIORS
-                            </p>
-                            <p>
-                            BROCK JUNIORS
-                            </p>
-                            <p>
-                            BROCK JUNIORS
-                            </p>
-                            <p>
-                            BROCK JUNIORS
-                            </p>
+                            <p>BROCK JUNIORS</p>
+                            <p>BROCK JUNIORS</p>
+                            <p>BROCK JUNIORS</p>
+                            <p>BROCK JUNIORS</p>
+                            <p>BROCK JUNIORS</p>
                         </div>
                     </div>
                 </div>
@@ -61,30 +56,33 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     async componentDidMount() {
+        Rhythm.onready = () => {
+            if (this.props.route.params?.rhythm) {
+                Rhythm.play(this.props.route.params.rhythm);
+                Rhythm.open();
+            }
+            Rhythm.onready = null;
+        }
         window.addEventListener('rhythm-close', () => {
             this.setState({open_rhythm: false});
         }, true);
     }
 
     toggle_rhythm = () => {
-        Alert.alert(
-            "Feature Unavailable",
-            "Rhythm isn't feeling very well right now 🤖🤒. Please be patient as we're working to get it running again 🎶⚙🔧."
-        );
-        // this.setState({open_rhythm: !this.state.open_rhythm}, () => {
-        //     if (this.state.open_rhythm) {
-        //         MobileRhythm.open();
-        //     } else {
-        //         MobileRhythm.close();
-        //     }
-        // });
+        this.setState({open_rhythm: !this.state.open_rhythm}, () => {
+            if (this.state.open_rhythm) {
+                Rhythm.open();
+            } else {
+                Rhythm.close();
+            }
+        });
     }
     render() {
         return (
             <div className="home">
                 <DesktopNavbar adornments={[
-                    <Button onClick={() => this.props.history.push('/about')} disableRipple>About</Button>,
-                    <Button onClick={() => this.props.history.push('/settings')} disableRipple>Settings</Button>,
+                    <Button onClick={() => this.props.navigation.navigate('/about')} disableRipple>About</Button>,
+                    <Button onClick={() => this.props.navigation.navigate('/settings')} disableRipple>Settings</Button>,
                     <Button onClick={this.toggle_rhythm} variant="contained" endIcon={<MusicNoteIcon />}>Music</Button>
                 ]} />
                 <AppBar adornments={[
@@ -92,7 +90,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                         {this.state.open_drawer ? <ClearIcon /> : <MenuIcon />}
                     </IconButton>
                 ]} />
-                <MobileDrawer open={this.state.open_drawer} onClose={() => this.setState({open_drawer: false})}/>
+                <MobileDrawer navigation={this.props.navigation} open={this.state.open_drawer} onClose={() => this.setState({open_drawer: false})}/>
                 <div className="content">
                     <div className="screen-grid">
                         <div className="title-wrap">

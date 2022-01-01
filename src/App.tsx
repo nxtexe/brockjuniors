@@ -1,20 +1,22 @@
 import React from 'react';
 import './css/App.css';
 import About from './Screens/About';
+import AboutModal from './Screens/AboutModal';
 import Home from './Screens/Home';
 import AdminLogin from './Screens/AdminLogin';
 import Settings from './Screens/Settings'
 import GhostLayer from './Components/GhostLayer';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+  Router,
+  Stack
+} from "react-motion-router";
 import Rythym from './Screens/Rhythm';
 import Alert from './Components/Alert';
 import AdminDashboard from './Screens/AdminDashboard';
-import {ReactComponent as BrockSvg} from './assets/bjr.svg';
+import {ReactComponent as BrockSvg} from './assets/icons/bjr.svg';
 import axios from 'axios';
+// import './Components/Snow';
+// import './css/Snow.css';
 
 interface AppProps {
 }
@@ -25,9 +27,6 @@ interface AppState {
 }
 
 class App extends React.Component<AppProps, AppState> {
-  constructor(props : AppProps) {
-    super(props);
-  }
   state = {
     admin_login: false,
     loading: true
@@ -54,30 +53,38 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div>
           <Alert />
-          <GhostLayer />
-          <Router>
-            <Rythym />
-            <Switch>
-              <Route exact path="/about" render={(props : any) => {
-                return <About {...props} />
-              }} />
-              <Route exact path="/" render={(props:any) => {
-                return <Home {...props} />
-              }} />
-              <Route exact path="/settings" render={(props:any) => {
-                return <Settings {...props} />
-              }} />
-              <Route exact path="/admin" render={(props:any) => {
+          <Rythym />
+          <Router config={{
+            default_route: '/',
+            animation: {
+              type: "fade",
+              duration: 200
+            }
+          }}>
+            <Stack.Screen path="/about/modal" component={AboutModal} default_params={{name: "brockjuniors"}} />
+            <Stack.Screen path="/about" component={About} />
+            <Stack.Screen path="/" component={Home} />
+            <Stack.Screen path="/settings" component={Settings} />
+            {
+              this.state.loading ?
+              (
+                <div id="brock-img" className="admin-loading"><BrockSvg /></div>
+              )
+              :
+              (
+                <Stack.Screen path="/admin" component={
+                  this.state.admin_login ?
+                (
+                  AdminDashboard                   
+                )
+                :
+                (
+                  AdminLogin
+                )
+                } default_params={!this.state.admin_login ? {login: this.admin_login}:undefined} />
                 
-                if (this.state.loading) {
-                  return <div id="brock-img" className="admin-loading"><BrockSvg /></div>
-                } else if (this.state.admin_login) {
-                  return <AdminDashboard logout={this.admin_logout.bind(this)} {...props} /> 
-                } else {
-                  return <AdminLogin login={this.admin_login.bind(this)} {...props} />
-                }
-              }} />
-            </Switch>
+              )
+            }
           </Router>
       </div>
     );

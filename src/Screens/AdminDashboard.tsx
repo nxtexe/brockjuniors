@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {User} from '../models/user';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import '../css/Dashboard.css';
 
 interface AdminDashboardProps {
 

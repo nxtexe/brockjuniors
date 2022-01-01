@@ -1,0 +1,53 @@
+/* desktop design */
+@media only screen and (min-width: 500px) {
+  #sound-bars {
+    height: 30px;
+    grid-column: 4;
+    grid-row: 1;
+    width: 40px;
+    transform: scale(0.75) translateY(95%);
+    z-index: 1;
+  }
+}
+/* mobile design */
+@media only screen and (max-width: 500px) {
+  #sound-bars {
+    height: 30px;
+    position: absolute;
+    left: 60vw;
+    width: 40px;
+    transform: scale(0.75);
+    z-index: 1;
+  }
+}
+
+.bar {
+  background: var(--accent);
+  bottom: 1px;
+  height: 3px;
+  position: absolute;
+  width: 15px;
+  animation: sound 0ms -800ms linear infinite alternate;
+}
+@keyframes sound {
+  0% {
+    opacity: 0.35;
+    height: 3px;
+  }
+  100% {
+    opacity: 1;
+    height: 28px;
+  }
+}
+.bar:nth-child(1) {
+  left: calc(0 * 15px);
+  animation-duration: 474ms;
+}
+.bar:nth-child(2) {
+  left: calc(calc(1 * 15px) + 5px);
+  animation-duration: 433ms;
+}
+.bar:nth-child(3) {
+  left: calc(calc(2 * 15px) + 10px);
+  animation-duration: 407ms;
+}

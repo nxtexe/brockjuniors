@@ -1,56 +1,29 @@
 import React, {useState} from 'react';
 import '../css/About.css';
-import TxhjImg from "../assets/night-life-tahj.jpg";
-import NxteImg from "../assets/nxte.jpg";
-import NicoImg from '../assets/nicostrudel.jpg';
-import BrockImg from '../assets/profile-picture.jpg';
+import {links, images, Names} from '../assets/AboutData';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '../Components/IconButton';
-import Modal from '@mui/material/Modal';
-import ClearIcon from '@mui/icons-material/Clear';
-import LaunchIcon from '@mui/icons-material/Launch';
-import ShareIcon from '@mui/icons-material/Share';
 import DesktopNavbar from '../Components/DesktopNavbar';
-
-enum Names {
-    nxte,
-    txhj,
-    brockjuniors,
-    nicorude
-};
-
-type names = keyof typeof Names;
+import {Navigation, SharedElement} from 'react-motion-router';
 
 interface AboutProps {
-    history : any;
+    navigation: Navigation;
 }
 export default function About(props : AboutProps) {
-    const links = {
-        nxte: 'https://www.instagram.com/p/CLniWw6H901/?utm_source=ig_web_copy_link',
-        txhj: 'https://www.instagram.com/p/CL8UaU3HjFP/?utm_source=ig_web_copy_link',
-        brockjuniors: 'https://www.instagram.com/brockjuniors/',
-        nicorude: 'https://www.instagram.com/p/CMd-Mk2Hg-z/?utm_source=ig_web_copy_link',
-    };
-    const images = {
-        nxte: NxteImg,
-        txhj: TxhjImg,
-        brockjuniors: BrockImg,
-        nicorude: NicoImg
-    };
+    
     const [link, set_link] = useState('brockjuniors');
     const [show_modal, toggle_modal] = useState(false);
 
-    function handle_click(e : React.MouseEvent<HTMLDivElement, MouseEvent>, name : names) {
-        set_link(name);
-        toggle_modal(true);
+    function handle_click(e : React.MouseEvent<HTMLDivElement, MouseEvent>, name: Names) {
+        props.navigation.navigate('/about/modal', {
+            name: name
+        });
+        // set_link(name);
+        // toggle_modal(true);
     }
 
     const on_back = () => {
-        if (props.history.length) {
-            props.history.goBack();
-        } else {
-            props.history.push('/');
-        }
+        props.navigation.go_back();
     }
     return (
         <div className="about">
@@ -76,46 +49,22 @@ export default function About(props : AboutProps) {
                         </div>
                     </div>
                     <div className="photo-grid">
-                        <div onClick={(e) => handle_click(e, "txhj")}>
-                            <img src={TxhjImg} alt="txhj" />
-                        </div>
-                        <div onClick={(e) => handle_click(e, "nxte")}>
-                            <img src={NxteImg} alt="nxte" />
-                        </div>
-                        <div onClick={(e) => handle_click(e, "brockjuniors")}>
-                            <img src={BrockImg} alt="brockjuniors" />
-                        </div>
-                        <div onClick={(e) => handle_click(e, "nicorude")}>
-                            <img src={NicoImg} alt="nicorude" />
-                        </div>
+                        {
+                            Object.keys(images).map((key: string, index: number) => {
+                                return (
+                                    <div onClick={(e) => handle_click(e, (key as Names))} key={index}>
+                                        <SharedElement id={key}>
+                                            <img src={images[(key as Names)]} alt={key} />
+                                        </SharedElement>
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
                 </div>
             </div>
 
-            <Modal open={show_modal}>
-                <div className="modal screen-grid">
-                    <div className="clear" onClick={() => toggle_modal(false)}>
-                        <IconButton>
-                            <ClearIcon />
-                        </IconButton>
-                    </div>
-                    <div className="launch" onClick={() => {
-                        window.open(links[link as names]);
-                    }}>
-                        <IconButton>
-                            <LaunchIcon />
-                        </IconButton>
-                    </div>
-                    <div className="share">
-                        <IconButton>
-                            <ShareIcon />
-                        </IconButton>
-                    </div>
-                    <div className="image-view">
-                        <img src={images[link as names]} alt={link} />
-                    </div>
-                </div>
-            </Modal>
+            
         </div>
     );
 }

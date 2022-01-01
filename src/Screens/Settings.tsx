@@ -6,10 +6,12 @@ import Switch from '@mui/material/Switch';
 import Divider from '@mui/material/Divider';
 import {toggle_dark_mode} from '../common/utils';
 import localforage from 'localforage';
+import Alert from '../Components/Alert';
 import '../css/Settings.css';
+import {Navigation} from 'react-motion-router';
 
 interface SettingsProps {
-    history : any;
+    navigation: Navigation;
 }
 
 interface SettingsState {
@@ -20,7 +22,7 @@ interface SettingsState {
 
 export default class Settings extends React.Component<SettingsProps, SettingsState> {
     state = {
-        darko_mode: false,
+        darko_mode: true,
         push_notifs: false,
         email_notifs: false
     }
@@ -29,28 +31,24 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
         let darko_mode = false;
         let push_notifs = false;
 
-        localforage.getItem('push_notifications').
-        then((_push_notifs) => {
+        localforage.getItem('push_notifications').then((_push_notifs) => {
             if (_push_notifs) {
                 push_notifs = true;
             } else {
                 push_notifs = false;
             }
             this.setState({push_notifs: push_notifs});
-        }).
-        catch(e => {
+        }).catch(e => {
             this.setState({push_notifs: false});
         })
-        localforage.getItem('theme')
-        .then((theme) => {
+        localforage.getItem('theme').then((theme) => {
             if (theme) {
                 darko_mode = (theme as string).includes('darko');
             } else {
                 darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
             }
             this.setState({darko_mode: darko_mode});
-        })
-        .catch(e => {
+        }).catch(e => {
             darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
             this.setState({darko_mode: darko_mode});
         });
@@ -59,11 +57,7 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
         
     }
     on_back = () => {
-        if (this.props.history.length) {
-            this.props.history.goBack();
-        } else {
-            this.props.history.push('/');
-        }
+        this.props.navigation.go_back();
     }
     toggle_theme = () => {
         this.setState({darko_mode: !this.state.darko_mode}, () => {
@@ -75,6 +69,7 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
             localforage.setItem('push_notifications', this.state.push_notifs);
         });
     }
+
     render() {
         return (
             <div className="settings">

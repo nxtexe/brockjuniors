@@ -4,15 +4,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import {ReactComponent as BJR} from '../assets/bjr.svg';
-import { withRouter } from "react-router";
+import {ReactComponent as BJR} from '../assets/icons/bjr.svg';
+import {Navigation} from 'react-motion-router';
 import '../css/MobileDrawer.css';
 
 interface MobileDrawerProps {
     open? : boolean;
     onClose? : React.ReactEventHandler<{}>;
     onOpen? : React.ReactEventHandler<{}>;
-    history? : any;
+    navigation?: Navigation;
 }
 function MobileDrawer(props : MobileDrawerProps) {
     return (
@@ -35,10 +35,10 @@ function MobileDrawer(props : MobileDrawerProps) {
                         <div className="content">
                             <Divider />
                             <List>
-                                <ListItem button key="About" onClick={() => props.history?.push('/about')}>
+                                <ListItem button key="About" onClick={() => props.navigation?.navigate('/about')}>
                                     <ListItemText primary="About" />
                                 </ListItem>
-                                <ListItem button key="Settings" onClick={() => props.history?.push('/settings')}>
+                                <ListItem button key="Settings" onClick={() => props.navigation?.navigate('/settings')}>
                                     <ListItemText primary="Settings" />
                                 </ListItem>
                             </List>
@@ -56,4 +56,4 @@ function MobileDrawer(props : MobileDrawerProps) {
     );
 }
 
-export default withRouter(MobileDrawer) as unknown as typeof MobileDrawer;
+export default MobileDrawer;

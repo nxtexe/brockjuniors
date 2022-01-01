@@ -2,7 +2,7 @@ import IconButton from './IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import '../css/Navbar.css';
 import React from 'react';
-import {ReactComponent as BJR} from '../assets/bjr.svg';
+import {ReactComponent as BJR} from '../assets/icons/bjr.svg';
 
 interface DesktopNavbarProps {
     title? : string;

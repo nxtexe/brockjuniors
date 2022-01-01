@@ -1,3 +1,6 @@
+.home {
+  flex: 1;
+}
 .home .content {
   position: absolute;
   overflow: hidden;
@@ -242,4 +245,8 @@
   border-image: linear-gradient(var(--angle), black, var(--button-flat-border))
     1;
   animation: 5s spin-the-wheel linear infinite;
+}
+.jackolantern {
+  width: 40px;
+  height: 40px;
 }

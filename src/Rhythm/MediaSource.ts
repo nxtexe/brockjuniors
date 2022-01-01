@@ -1,4 +1,4 @@
-import {isMobile} from '../common/utils';
+import {isMobile, iOS} from '../common/utils';
 
 export interface ICallbacks {
     error?: Function;
@@ -7,6 +7,7 @@ export interface ICallbacks {
     pause?: Function;
     buffering?: Function;
     bufferend?: Function;
+    timeupdate?: Function;
 }
 
 enum Eevents {
@@ -17,6 +18,7 @@ enum Eevents {
     ended,
     buffering,
     bufferend,
+    timeupdate
 }
 export type events = keyof typeof Eevents;
 
@@ -91,6 +93,10 @@ export class MediaSource {
         this._audio.addEventListener('loadeddata', (e) => {
             if (this._callbacks.bufferend) this._callbacks.bufferend(e);
         }, true);
+
+        this._audio.addEventListener('timeupdate', (e) => {
+            if (this._callbacks.timeupdate) this._callbacks.timeupdate(e);
+        }, true);
         /**
          * Code responsible for audio context source creation. This is necessary for playing audio in the background
          * on mobile but currently has an issue with cross origin content. Getting music from another origin
@@ -98,7 +104,8 @@ export class MediaSource {
          * 
          * Possible solutions?
             1̶.̶ M̶a̶n̶u̶a̶l̶l̶y̶ s̶t̶r̶e̶a̶m̶ c̶o̶n̶t̶e̶n̶t̶ t̶o̶ t̶h̶e̶ w̶e̶b̶ a̶u̶d̶i̶o̶ a̶p̶i̶ u̶s̶i̶n̶g̶ r̶e̶a̶d̶a̶b̶l̶e̶ s̶t̶r̶e̶a̶m̶s̶
-            2. Just supply url wrapped using allorigins.win instead of raw url
+            2̶.̶ J̶u̶s̶t̶ s̶u̶p̶p̶l̶y̶ u̶r̶l̶ w̶r̶a̶p̶p̶e̶d̶ u̶s̶i̶n̶g̶ a̶l̶l̶o̶r̶i̶g̶i̶n̶s̶.̶w̶i̶n̶ i̶n̶s̶t̶e̶a̶d̶ o̶f̶ r̶a̶w̶ u̶r̶l̶
+            3. Just supply url hosted at cdn.brockjuniors.com/audio
          */
 
         
@@ -111,7 +118,22 @@ export class MediaSource {
     set source(_source : MediaElementAudioSourceNode) {
         this._source_node = _source;
         this._gain_node = this.audio_context.createGain();
-        this._source_node.connect(this._gain_node).connect(this.audio_context.destination);
+
+        const bass_filter = this.audio_context.createBiquadFilter();
+        bass_filter.type = "lowshelf";
+        bass_filter.frequency.value = 10;
+        bass_filter.gain.value = 10;
+
+        const treble_filter = this.audio_context.createBiquadFilter();
+        treble_filter.type = "highshelf";
+        treble_filter.frequency.value = 20;
+        treble_filter.gain.value = 20;
+        this._source_node
+        .connect(this._gain_node)
+        .connect(this.audio_context.destination);
+
+        // .connect(bass_filter)
+        // .connect(treble_filter)
     }
 
     public play() : boolean {
@@ -119,7 +141,8 @@ export class MediaSource {
             // this.audio = this._audio;
 
             if (this.audio_context.state === "suspended") {
-                this.audio_context.resume();//NOTE: This is important to comply with chrome autoplay policy. Call after user gesture
+                //NOTE: This is important to comply with chrome autoplay policy. Call after user gesture
+                this.audio_context.resume();
             }
             
             this._playing = true;
@@ -149,8 +172,19 @@ export class MediaSource {
     }
 
     set current_time(_current_time : number) {
-        this._audio.currentTime = _current_time;
-        
+        // if (!this._audio.paused) {
+        //     this._audio.oncanplay = () => {
+        //         this._audio.play();
+        //         this._audio.oncanplay = null;
+        //     }
+        // }
+        if (_current_time !== this.current_time) {
+            if (_current_time < this._audio.duration) {
+                this._audio.currentTime = _current_time;
+            } else {
+                this._audio.currentTime = this._audio.duration;
+            }
+        }
     }
 
     get playing() : boolean {
@@ -165,9 +199,9 @@ export class MediaSource {
     }
 
     set volume(_volume : number) {
-        this._volume = _volume;
-        this._audio.volume = _volume;
-        // if (this._gain_node) this._gain_node.gain.value = _volume;
+        // this._volume = _volume;
+        // this._audio.volume = _volume;
+        if (this._gain_node) this._gain_node.gain.value = _volume;
     }
 
     get callbacks() : ICallbacks {
@@ -178,6 +212,9 @@ export class MediaSource {
         return this._audio.duration;
     }
 
+    /**
+     * call before adding songs
+     */
     public on(event : events, callback : Function) : void {
         switch(event) {
             case "change":
@@ -194,6 +231,10 @@ export class MediaSource {
                 
             case "pause":
                 this._callbacks.pause = callback;
+                break;
+            
+            case "timeupdate":
+                this._callbacks.timeupdate = callback;
                 break;
             
             case "buffering":

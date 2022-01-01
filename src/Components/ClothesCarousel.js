@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactCardCarousel from "react-card-carousel";
-import Blue from '../assets/the-blue-brockening.png';
-import Brown from '../assets/the-brown-brockening.png';
-import Grey from '../assets/the-grey-brockening.png';
+import Blue from '../assets/images/carousel-1.png';
+import Brown from '../assets/images/carousel-2.png';
+import Grey from '../assets/images/carousel-3.png';
 
 export default class ClothesCarousel extends React.Component {
   static get CONTAINER_STYLE() {

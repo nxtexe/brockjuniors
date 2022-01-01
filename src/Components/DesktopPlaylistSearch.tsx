@@ -3,8 +3,6 @@ import TextField from './TextField';
 import Button from './Button';
 import IconButton from './IconButton';
 import ChevronDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Slide from '@mui/material/Slide';
-import Modal from '@mui/material/Modal';
 
 interface PlaylistSearchProps {
     search_query : string;

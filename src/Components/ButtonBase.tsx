@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ButtonBase as Base} from '@mui/material';
-import {isMobile} from '../common/utils';
+
 import '../css/Button.css';
 
 enum Colours {
@@ -67,17 +67,30 @@ export default function ButtonBase(props : ButtonProps) {
             style={props.style}
             id={props.id || ""}
             disableRipple={props.disableRipple}
-            onClick={props.onClick}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                if (props.onContextMenu) {
+                    props.onContextMenu(e);
+                }
+            }}
+            onClick={(e) => {
+                if (props.onLongPress) {
+                    return;
+                } else {
+                    if (props.onClick) {
+                        props.onClick(e);
+                    }
+                }
+            }}
             disabled={props.disabled || false}
             className={`button-base ${props.colour || 'primary'} ${props.variant || 'default'} ${props.className || ''}`}
             onTouchStart={start_timer}
             onTouchEnd={end_timer}
             onMouseDown={start_timer}
             onMouseUp={end_timer}
-            onContextMenu={isMobile() ? undefined : props.onContextMenu}
         >
             {props.startIcon}
-            <div className={props.startIcon || props.endIcon ? "children" : undefined}>{props.children}</div>
+            <div className={props.startIcon || props.endIcon ? "button-base-child children" : "button-base-child"}>{props.children}</div>
             {props.endIcon}
         </Base>
     );
