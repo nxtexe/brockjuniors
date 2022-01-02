@@ -6,7 +6,6 @@ import Switch from '@mui/material/Switch';
 import Divider from '@mui/material/Divider';
 import {toggle_dark_mode} from '../common/utils';
 import localforage from 'localforage';
-import Alert from '../Components/Alert';
 import '../css/Settings.css';
 import {Navigation} from 'react-motion-router';
 

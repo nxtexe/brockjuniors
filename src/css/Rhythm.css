@@ -341,12 +341,7 @@
     transform: translateX(-16px);
   }
   .rhythm .lyrics {
-    grid-row: 1;
-    grid-column: 3;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    transform: translateX(16px);
+    display: none;
   }
   .rhythm .share {
     grid-row: 1;

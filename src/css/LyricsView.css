@@ -1,3 +1,8 @@
+@media only screen and (min-width: 500px) {
+    .lyrics-viewer {
+        display: none;
+    }
+}
 @media only screen and (max-width: 500px) {
     .rhythm .screen-grid {
         position: relative;
@@ -16,7 +21,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 15px;
     }
     .lyrics-viewer::before {
         content: "a";
@@ -30,7 +34,7 @@
         background-image: linear-gradient(
             to top,
             var(--background-transparent),
-            var(--background) 30%
+            var(--background) 90%
         );
     }
     .lyrics-viewer::after {
@@ -52,18 +56,78 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        height: 100vh;
+        overflow: scroll;
+        padding-top: 100px;
+        scroll-padding-top: 150px;
+        scroll-padding-bottom: 70vh;
+        padding-bottom: 70vh;
+    }
+    .lyric.show {
+        transition: transform 100ms cubic-bezier(0,1.02,.42,.71), opacity 600ms ease, filter 500ms ease-in-out;
+        animation: slide-lyric-in 600ms cubic-bezier(0,1.02,.42,.71);
+        opacity: 50%;
+        filter: blur(4px);
+    }
+    .show.first {
+        opacity: 80%;
+        filter: blur(2px);
+    }
+    .show.second {
+        opacity: 70%;
+        filter: blur(2px);
+    }
+    .show.second {
+        opacity: 50%;
+        filter: blur(3px);
+    }
+    .show.behind {
+        opacity: 50%;
+        filter: blur(4px);
+        animation: slide-lyric-out 450ms cubic-bezier(0,1.02,.42,.71) forwards;
+    }
+    .show.in-front {
+        animation: move-lyric-up 700ms cubic-bezier(0,1.02,.42,.71) forwards;
+    }
+    .lyric.current {
+        opacity: 100%;
+        filter: none;
+        animation: slide-current-lyric 600ms cubic-bezier(0,1.02,.42,.71) forwards;
     }
     .lyric {
-        transition: transform 100ms cubic-bezier(0,1.02,.42,.71);
-        animation: slide-in 600ms cubic-bezier(0,1.02,.42,.71);
-        position: absolute;
+        width: calc(100vw - 30px);
+        padding-left: 15px;
     }
-    @keyframes slide-in {
+    @keyframes slide-lyric-in {
         from {
             transform: translateY(100%);
         }
         to {
             transform: translateY(0px);
+        }
+    }
+    @keyframes slide-current-lyric {
+        from {
+            transform: translateY(0%);
+        }
+        to {
+            transform: translateY(-4.2vh);
+        }
+    }
+    @keyframes slide-lyric-out {
+        from {
+            transform: translateY(-4.2vh);
+        }
+        to {
+            transform: translateY(-6vh);
+        }
+    }
+    @keyframes move-lyric-up {
+        from {
+            transform: translateY(0%);
+        }
+        to {
+            transform: translateY(15px);
         }
     }
 }

@@ -18,9 +18,10 @@ interface TextFieldState {
 }
 export default class TextField extends React.Component<TextFieldProps, TextFieldState> {
     render() {
+        const {onEnter, ...props} = this.props;
         return (
             <InputBase
-                {...this.props}
+                {...props}
                 onKeyUp={(e) => {
                     if (e.keyCode === 13 && this.props.onEnter) {
                         e.preventDefault();

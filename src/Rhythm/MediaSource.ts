@@ -1,4 +1,4 @@
-import {isMobile, iOS} from '../common/utils';
+import {isMobile} from '../common/utils';
 
 export interface ICallbacks {
     error?: Function;

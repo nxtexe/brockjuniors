@@ -435,7 +435,6 @@ export class MediaPlayer {
                 this.media_queue.enqueue(index);
             } else {
                 this.media_queue.insert(this.queue_index + 1, index);
-                console.log(this.media_queue.queue);
             }
         }
     }

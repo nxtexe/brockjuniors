@@ -6,7 +6,6 @@ import {
     PlaylistPlay as PlaylistPlayIcon,
     KeyboardArrowDown as ChevronDownIcon,
     ThumbUp as ThumbUpIcon,
-    ThumbDown as ThumbDownIcon,
     Share as ShareIcon,
     Repeat as RepeatIcon,
     PlayArrow as PlayArrowIcon,
@@ -21,7 +20,6 @@ import {SwipeableDrawer, LyricsView} from '../Rhythm/Components';
 import Slider from '@mui/material/Slider';
 import {ReactComponent as ShuffleSmallIcon} from '../assets/icons/ShuffleSmall.svg';
 import {ReactComponent as ThumbUpSmallIcon} from '../assets/icons/ThumbUpSmall.svg';
-import {ReactComponent as ThumbDownSmallIcon} from '../assets/icons/ThumbDownSmall.svg';
 import {MediaPlayer, MediaItem, MediaQueue} from '../Rhythm';
 import {ReactComponent as RepeatOneSmallIcon} from '../assets/icons/RepeatOneSmall.svg';
 import {ReactComponent as RepeatSmallIcon} from '../assets/icons/RepeatSmall.svg';
@@ -66,7 +64,6 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
     static ready: boolean = false;
     private media_player : MediaPlayer = new MediaPlayer();
     private current_time_interval : number = 0;
-    private animated_title : HTMLHeadingElement | null = null;
     private curated_queue : MediaQueue = new MediaQueue();
     private liked_queue : MediaQueue = new MediaQueue();
     private cover_art: HTMLElement | null = null;
@@ -238,7 +235,6 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
 
     }
     handle_scrub(event: React.SyntheticEvent | Event, scrub_pos: number | Array<number>) {
-        console.log(scrub_pos);
         if (this.media_player && this.state.media_item) {
             if (typeof scrub_pos !== "number") {
                 const current_time : number = (scrub_pos[0] / 100) * this.state.media_item.duration; 
@@ -357,7 +353,13 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
         return (
             <Slide direction="up" in={this.state.open} mountOnEnter unmountOnExit>
                 <div className={`rhythm ${this.state.lyrics ? 'lyrics-view' : ''}`} ref={(c) => this.ref = c}>
-                <LyricsView playing={this.state.is_playing} current_time={this.state.current_time} lyrics={this.media_player.now_playing?.lyrics || {}} in={this.state.lyrics} />
+                <LyricsView
+                    scrubbing={this.state.scrubbing}
+                    progress={(this.state.current_time / (this.state.media_item?.duration || 1)) * 100}
+                    playing={this.state.is_playing} current_time={this.state.current_time}
+                    lyrics={this.media_player.now_playing?.lyrics || {}}
+                    in={this.state.lyrics}
+                />
                     <div className="screen-grid">
                         <div className="back">
                             <IconButton onClick={() => Rhythm.close()}>

@@ -18,21 +18,20 @@ if ('serviceWorker' in navigator) {
 }
 
 
-// localforage.getItem('theme')
-// .then((theme) => {
-//   if (theme) {
-//     toggle_dark_mode((theme as string).includes('darko'));
-//   } else {
-//     let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-//     toggle_dark_mode(darko_mode);
-//   }
-// })
-// .catch(e => {
-//   let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-//   toggle_dark_mode(darko_mode);
-// });
+localforage.getItem('theme')
+.then((theme) => {
+  if (theme) {
+    toggle_dark_mode((theme as string).includes('darko'));
+  } else {
+    let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    toggle_dark_mode(darko_mode);
+  }
+})
+.catch(e => {
+  let darko_mode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  toggle_dark_mode(darko_mode);
+});
 
-toggle_dark_mode(true);
 
 ReactDOM.render(
   <React.StrictMode>

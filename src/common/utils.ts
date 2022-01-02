@@ -52,7 +52,7 @@ export function isMobile() : boolean {
          return false;
      }
      
-     return /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(email);
+     return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
  }
  
  export function setThemeColour(color : string) {
@@ -289,13 +289,13 @@ export function shared_element_transition(start_element: HTMLElement, end_elemen
 
 export function closest(needle: number, haystack: number[]) {
     return haystack.reduce((a: number, b: number) => {
-        let aDiff = Math.abs(a - needle);
-        let bDiff = Math.abs(b - needle);
+        let a_diff = Math.abs(a - needle);
+        let b_diff = Math.abs(b - needle);
 
-        if (aDiff == bDiff) {
+        if (a_diff === b_diff) {
             return a > b ? a : b;
         } else {
-            return bDiff < aDiff ? b : a;
+            return b_diff < a_diff ? b : a;
         }
     });
 }

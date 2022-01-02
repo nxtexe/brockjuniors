@@ -5,7 +5,6 @@ import AboutModal from './Screens/AboutModal';
 import Home from './Screens/Home';
 import AdminLogin from './Screens/AdminLogin';
 import Settings from './Screens/Settings'
-import GhostLayer from './Components/GhostLayer';
 import {
   Router,
   Stack
@@ -15,8 +14,6 @@ import Alert from './Components/Alert';
 import AdminDashboard from './Screens/AdminDashboard';
 import {ReactComponent as BrockSvg} from './assets/icons/bjr.svg';
 import axios from 'axios';
-// import './Components/Snow';
-// import './css/Snow.css';
 
 interface AppProps {
 }

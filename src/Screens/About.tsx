@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../css/About.css';
-import {links, images, Names} from '../assets/AboutData';
+import {images, Names} from '../assets/AboutData';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '../Components/IconButton';
 import DesktopNavbar from '../Components/DesktopNavbar';
@@ -10,10 +10,6 @@ interface AboutProps {
     navigation: Navigation;
 }
 export default function About(props : AboutProps) {
-    
-    const [link, set_link] = useState('brockjuniors');
-    const [show_modal, toggle_modal] = useState(false);
-
     function handle_click(e : React.MouseEvent<HTMLDivElement, MouseEvent>, name: Names) {
         props.navigation.navigate('/about/modal', {
             name: name
