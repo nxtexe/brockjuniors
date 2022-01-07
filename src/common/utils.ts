@@ -250,6 +250,7 @@ export function shared_element_transition(start_element: HTMLElement, end_elemen
     start_node.style.cssText = get_css_text(window.getComputedStyle(start_element));
     start_node.style.opacity = '1';
     start_node.style.transform = `translate(${start_rect.x}px, ${start_rect.y}px)`;
+    start_node.style.transformOrigin = 'center center';
     start_node.style.position = 'absolute';
     start_node.style.inset = 'unset';
     start_node.style.top = '0px';
@@ -264,6 +265,7 @@ export function shared_element_transition(start_element: HTMLElement, end_elemen
     end_node.style.cssText = get_css_text(window.getComputedStyle(end_element));
     end_node.style.opacity = '1';
     end_node.style.transform = `translate(${end_rect.x}px, ${end_rect.y}px)`;
+    start_node.style.transformOrigin = 'center center';
     end_node.style.position = 'absolute';
     end_node.style.inset = 'unset';
     end_node.style.top = '0px';

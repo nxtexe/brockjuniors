@@ -1,7 +1,7 @@
 .settings .content .screen-grid {
     margin: 0!important;
     padding: 15px;
-    padding-top: 0;
+    
 }
 /*desktop design*/
 @media only screen and (min-width: 500px) {
@@ -23,6 +23,9 @@
 
 /*mobile design*/
 @media only screen and (max-width: 500px) {
+    .settings .content .screen-grid {
+        padding-top: 0;
+    }
     .settings .back-button {
         transform: translateX(-16px);
     }
@@ -64,13 +67,13 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.zombie-hand {
-    min-width: 30px;
-    width: 3vw;
-    height: auto;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+.app-version {
+    width: 100vw;
+    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.app-version p {
+    text-align: center;
 }

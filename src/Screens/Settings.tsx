@@ -114,6 +114,10 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
                                 />
                             </div>
                         </div>
+                        <div className="app-version">
+                            <p>BROCKJUNIORS</p>
+                            <p className='caption'>v2022.{process.env.REACT_APP_VERSION}</p>
+                        </div>
                     </div>
                 </div>
             </div>

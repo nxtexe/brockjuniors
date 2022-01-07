@@ -31,6 +31,7 @@ interface EventListener {
 export class MediaSource {
     private audio_context : AudioContext;
     private _source_node : MediaElementAudioSourceNode | null = null;
+    private _connected: boolean = false;
     private _gain_node : GainNode | null = null;
     private _audio : HTMLAudioElement = new Audio();
     private event_listeners : EventListener[] = [];
@@ -53,6 +54,16 @@ export class MediaSource {
         this._callbacks = {};
         this._playing = false;
         this.pause();
+        if (this._gain_node) {
+            this._source_node?.disconnect(this._gain_node);
+            try {
+                this._source_node?.disconnect(this.audio_context.destination);
+
+            } catch (e) {
+                
+            }
+            this._connected = false;
+        }
     }
 
     get source_node() : MediaElementAudioSourceNode {
@@ -116,6 +127,16 @@ export class MediaSource {
     }
 
     set source(_source : MediaElementAudioSourceNode) {
+        if (this._connected && this._gain_node) {
+            this._source_node?.disconnect(this._gain_node);
+
+            try {
+                this._source_node?.disconnect(this.audio_context.destination);
+            } catch (e) {
+
+            }
+            this._connected = false;
+        }
         this._source_node = _source;
         this._gain_node = this.audio_context.createGain();
 
@@ -131,7 +152,7 @@ export class MediaSource {
         this._source_node
         .connect(this._gain_node)
         .connect(this.audio_context.destination);
-
+        this._connected = true;
         // .connect(bass_filter)
         // .connect(treble_filter)
     }

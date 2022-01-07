@@ -1,5 +1,5 @@
 import React from 'react';
-import {closest} from '../../common/utils';
+import {closest, iOS} from '../../common/utils';
 import '../../css/LyricsView.css';
 
 interface LyricsViewProps {
@@ -24,6 +24,13 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
     private static keys: number[] = [];
     private ref: HTMLElement | null = null;
     private closest_index: number = 0;
+    private raf_id: number = 0;
+    private observer = new IntersectionObserver(this.observe.bind(this), {
+        rootMargin: '-50px 0px -20% 0px',
+        threshold: .5
+    });
+    private intersecting_map: {[key:number]: HTMLElement} = {};
+    private current_scroll: number = 0;
     state: LyricsViewState = {
         current_time: this.props.current_time,
         should_scroll: false,
@@ -48,9 +55,13 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
         return null;
     }
     
-    componentDidMount() {
+    async componentDidMount() {
         LyricsView.keys = Object.keys(this.props.lyrics).map((key) => parseFloat(key));
         LyricsView.values = Object.values(this.props.lyrics);
+
+        if (iOS()) {
+            await import("scroll-behavior-polyfill");
+        }
     }
     
     componentDidUpdate(prev_props: LyricsViewProps) {
@@ -64,7 +75,6 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
             if (prev_props.lyrics !== this.props.lyrics) {
                 LyricsView.keys = Object.keys(this.props.lyrics).map((key) => parseFloat(key));
                 LyricsView.values = Object.values(this.props.lyrics);
-                console.log("Update");
                 this.setState({loading: true}, () => {
                     window.setTimeout(() => {
                         this.setState({loading: false});
@@ -73,6 +83,40 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
             }
         }
     }
+
+    observe(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+        if (this.props.playing && !this.props.scrubbing) {
+            entries.map((entry: IntersectionObserverEntry, index: number) => {
+                if (entry.isIntersecting) {
+                    this.intersecting_map[index] = (entry.target as HTMLElement);
+                } else {
+                    (entry.target as HTMLElement).style.transform = '';
+                    delete this.intersecting_map[index];
+                }
+                return entry;
+            });
+        }
+    }
+
+    // animated_scroll() {
+    //     if (this.ref && !this.props.scrubbing && this.props.playing) {
+    //         const ease = 0.075;
+    //         const target = this.ref.scrollTop;
+    //         const travel_distance = target - this.current_scroll;
+    //         const delta = Math.abs(travel_distance) < 0.1 ? 0 : travel_distance * ease;
+    //         if (delta) {
+    //             this.current_scroll += delta;
+    //             this.current_scroll = Math.floor(this.current_scroll);
+    //             this.raf_id = window.requestAnimationFrame(this.animated_scroll.bind(this));
+    //         } else {
+    //             this.current_scroll = target;
+    //             window.cancelAnimationFrame(this.raf_id);
+
+    //         }
+
+    //         this.ref.style.transform = `translateY(${-delta}px)`;
+    //     }
+    // }
 
     get_scroll_percentage() {
         if (this.ref) {
@@ -84,7 +128,9 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
         if (this.ref) {
             const scroll_top = (percentage / 100) * (this.ref.scrollHeight - this.ref.clientHeight);
 
+            this.ref.style.transform = '';
             this.ref.scrollTop = scroll_top;
+            this.current_scroll = scroll_top;
         }
     }
 
@@ -119,7 +165,14 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
     render() {
         return (
             <div className='lyrics-viewer' style={{opacity: this.props.in ? '1' : '0'}}>
-                <div className='lyrics-content' ref={(c) => this.ref = c}>
+                <div className="intersection-root"></div>
+                <div className='lyrics-content' ref={(c) => this.ref = c} style={iOS() ? {
+                    scrollPaddingTop: '150px',
+                    paddingTop: '100px',
+                    paddingBottom: '70vh',
+                    scrollPaddingBottom: '70vh',
+                    scrollBehavior: this.props.scrubbing ? 'unset' : 'smooth',
+                } : undefined}>
                 {
                     this.state.loading ?
                     undefined
@@ -134,10 +187,11 @@ export default class LyricsView extends React.Component<LyricsViewProps, LyricsV
                             <h3
                                 ref={(ref) => {
                                     if (ref) {
-                                        if (this.closest_index === index && this.state.should_scroll) {
+                                        this.observer.observe(ref);
+                                        if (this.closest_index === index && this.state.should_scroll && !this.props.scrubbing) {
                                             ref.scrollIntoView({
                                                 behavior: 'smooth',
-                                                block: 'start'
+                                                block: iOS() ? 'center' : 'start'
                                             });
                                             this.setState({should_scroll: false});
                                         }

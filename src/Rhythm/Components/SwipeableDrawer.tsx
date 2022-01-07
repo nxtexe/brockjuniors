@@ -96,6 +96,9 @@ export default class SwipeableDrawer extends React.Component<SwipeableDrawerProp
                 open={this.props.open_playlist || !this.state.can_close}
                 onOpen={this.props.toggle_playlist}
                 onClose={this.onClose.bind(this)}
+                hysteresis={0.8}
+                disableSwipeToOpen={false}
+                disableDiscovery
             >
                 <div className="playlist screen-grid">
                     <div className="back">

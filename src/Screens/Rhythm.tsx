@@ -326,14 +326,14 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
         // toggle lyrics
         if (this.ref && this.lyrics_cover_art && this.cover_art) {
             if (this.state.lyrics) {
-                shared_element_transition(this.lyrics_cover_art, this.cover_art, this.ref, 250);
+                shared_element_transition(this.lyrics_cover_art, this.cover_art, this.ref, 250, 'linear');
                 if (this.lyrics_cover_art.firstChild && this.cover_art.firstChild) {
-                    shared_element_transition((this.lyrics_cover_art.firstChild as HTMLElement), (this.cover_art.firstChild as HTMLElement), this.ref, 250);
+                    shared_element_transition((this.lyrics_cover_art.firstChild as HTMLElement), (this.cover_art.firstChild as HTMLElement), this.ref, 250, 'linear');
                 }
             } else {
-                shared_element_transition(this.cover_art, this.lyrics_cover_art, this.ref, 300);
+                shared_element_transition(this.cover_art, this.lyrics_cover_art, this.ref, 300, 'ease-out');
                 if (this.lyrics_cover_art.firstChild && this.cover_art.firstChild) {
-                    shared_element_transition((this.cover_art.firstChild as HTMLElement), (this.lyrics_cover_art.firstChild as HTMLElement), this.ref, 300);
+                    shared_element_transition((this.cover_art.firstChild as HTMLElement), (this.lyrics_cover_art.firstChild as HTMLElement), this.ref, 300, 'ease-out');
                 }
             }
         }
@@ -371,16 +371,17 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
                                 BROCK JUNIORS
                             </p>
                         </div>
+                        
                         <div className="playlist">
                             <IconButton onClick={this.toggle_playlist}>
                                 <PlaylistPlayIcon />
                             </IconButton>
                         </div>
                         <div className={`cover-art`} ref={(c) => this.cover_art = c}>
-                            <img src={this.media_player.queue.length ? this.state.media_item?.cover_art?.url : DefaultCover} alt={this.media_player.queue.length ? this.state.media_item?.name : 'default'} />
+                            <img src={this.media_player.queue.length ? this.state.media_item?.cover_art?.url : DefaultCover} alt={this.media_player.queue.length ? this.state.media_item?.name : 'default'}  onClick={this.toggle_lyrics.bind(this)} />
                         </div>
                         <div className={`cover-art lyrics-view`} ref={(c) => this.lyrics_cover_art = c}>
-                            <img src={this.media_player.queue.length ? this.state.media_item?.cover_art?.url : DefaultCover} alt={this.media_player.queue.length ? this.state.media_item?.name : 'default'} />
+                            <img src={this.media_player.queue.length ? this.state.media_item?.cover_art?.url : DefaultCover} alt={this.media_player.queue.length ? this.state.media_item?.name : 'default'}  onClick={this.toggle_lyrics.bind(this)} />
                         </div>
                         <div className="song-info">
                             <div className="title">
@@ -391,7 +392,7 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
                             </div>
                         </div>
                         <div className={`like ${this.state.media_item?.liked ? 'active' : ''}`}>
-                            <IconButton disabled={!this.media_player.queue.length ? true : false} onClick={() => {
+                            <IconButton disabled={!this.media_player.can_play} onClick={() => {
                                 if (this.media_player.now_playing.liked) {
                                     this.media_player.now_playing.liked = false;
                                     // this.state.liked_queue.remove(this.media_player.now_playing.uuid);
@@ -451,13 +452,13 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
                             </div>
                         </div>
                         <div className={`repeat ${this.state.repeat === 1 ? '' : 'active'}`}>
-                            <IconButton onClick={this.handle_repeat}>
+                            <IconButton onClick={this.handle_repeat} disabled={!this.media_player.can_play}>
                                 {/* if repeat = 1 then no repeat, if repeat = 2 then repeat once, if repeat = 4 then repeat infinitely */}
                                 {this.state.repeat === 1 ? <RepeatIcon /> : this.state.repeat === 1 << 1 ? <RepeatOneSmallIcon /> : <RepeatSmallIcon />}
                             </IconButton>
                         </div>
                         <div className="previous">
-                            <IconButton onClick={() => {this.media_player.previous();}}>
+                            <IconButton onClick={() => {this.media_player.previous();}} disabled={!this.media_player.can_play}>
                                 <SkipPreviousIcon />
                             </IconButton>
                         </div>
@@ -467,12 +468,12 @@ export default class Rhythm extends React.Component<{}, RhythmState> {
                             </IconButton>
                         </div>
                         <div className="next">
-                            <IconButton onClick={() => {this.media_player.next();}}>
+                            <IconButton onClick={() => {this.media_player.next();}} disabled={!this.media_player.can_play}>
                                 <SkipNextIcon />
                             </IconButton>
                         </div>
                         <div className={`shuffle ${this.state.shuffle_on ? 'active' : ''}`}>
-                            <IconButton onClick={this.toggle_shuffle}>
+                            <IconButton onClick={this.toggle_shuffle} disabled={!this.media_player.can_play}>
                                 {this.state.shuffle_on ? <ShuffleSmallIcon /> : <ShuffleIcon />}
                             </IconButton>
                         </div>
