@@ -13,7 +13,20 @@ import Alert from './Components/Alert';
 
 
 class App extends React.Component {
-
+  componentDidMount() {
+    const splash_screen = document.querySelector('.splash-screen') as HTMLElement;
+    if (splash_screen) {
+      splash_screen.style.transition = '0.5s';
+      splash_screen.ontransitionend = () => {
+        document.body.removeChild(splash_screen);
+      }
+      setTimeout(() => {
+        window.requestAnimationFrame(() => {
+          splash_screen.style.opacity = '0';
+        });
+      }, 500);
+    }
+  }
   render() {
     return (
       <div>
