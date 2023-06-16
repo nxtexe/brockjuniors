@@ -3,7 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import SwipeableViews from 'react-swipeable-views';
+// import SwipeableViews from 'react-swipeable-views';
 import TabPanel from '../../Components/TabPanel';
 import PlaylistItem from './PlaylistItem';
 import DesktopNavbar from '../../Components/DesktopNavbar';
@@ -178,7 +178,7 @@ export default class SwipeableDrawer extends React.Component<SwipeableDrawerProp
                         <Tab label="Curated" />
                         <Tab label="Liked Songs" />
                     </Tabs>
-                    <SwipeableViews className="swipeable-view" index={this.state.playlist_page} onChangeIndex={(index : number) => {
+                    {/* <SwipeableViews className="swipeable-view" index={this.state.playlist_page} onChangeIndex={(index : number) => {
                         console.log(!Boolean(index));
                         this.setState({playlist_page: index, can_close: !Boolean(index)});
                     }} onContextMenu={(e) => e.preventDefault()} hysteresis={0.2}>
@@ -210,7 +210,7 @@ export default class SwipeableDrawer extends React.Component<SwipeableDrawerProp
                                 return <></>
                             })}
                         </TabPanel>
-                    </SwipeableViews>
+                    </SwipeableViews> */}
                     
                     <PlaylistSearch
                         in={this.state.open_search_modal}

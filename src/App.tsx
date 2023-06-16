@@ -8,7 +8,7 @@ import {
   Router,
   Stack
 } from "react-motion-router";
-import Rythym from './Screens/Rhythm';
+import Rhythm from './Screens/Rhythm';
 import Alert from './Components/Alert';
 
 
@@ -29,22 +29,22 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
+      <>
           <Alert />
-          <Rythym />
+          {/* <Rhythm /> */}
           <Router config={{
-            default_route: '/',
+            defaultRoute: '/',
             animation: {
               type: "fade",
               duration: 200
             }
           }}>
-            <Stack.Screen path="/about/modal" component={AboutModal} default_params={{name: "brockjuniors"}} />
+            <Stack.Screen path="/about/modal" component={AboutModal} defaultParams={{name: "brockjuniors"}} />
             <Stack.Screen path="/about" component={About} />
             <Stack.Screen path="/" component={Home} />
             <Stack.Screen path="/settings" component={Settings} />
           </Router>
-      </div>
+      </>
     );
   }
 }

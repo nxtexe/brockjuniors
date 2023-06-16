@@ -3,7 +3,7 @@ import DesktopNavbar from '../Components/DesktopNavbar';
 import '../css/Home.css';
 import Button from '../Components/Button';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import ClothesCarousel from '../Components/ClothesCarousel';
+// import ClothesCarousel from '../Components/ClothesCarousel';
 import IconButton from '../Components/IconButton';
 import AppBar from '../Components/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -106,7 +106,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                             </div>
                         </div>
                         <div className="clothes-carousel">
-                            <ClothesCarousel autoplay={!this.state.open_rhythm} />
+                            {/* <ClothesCarousel autoplay={!this.state.open_rhythm} /> */}
                         </div>
                         <div className="mailing-list">
                             <Button onClick={() => this.setState({open_mailing_modal: true})}>Join our mailing list</Button>

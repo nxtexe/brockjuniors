@@ -19,7 +19,7 @@ export default function About(props : AboutProps) {
     }
 
     const on_back = () => {
-        props.navigation.go_back();
+        props.navigation.goBack();
     }
     return (
         <div className="about">

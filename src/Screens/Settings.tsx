@@ -56,7 +56,7 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
         
     }
     on_back = () => {
-        this.props.navigation.go_back();
+        this.props.navigation.goBack();
     }
     toggle_theme = () => {
         this.setState({darko_mode: !this.state.darko_mode}, () => {

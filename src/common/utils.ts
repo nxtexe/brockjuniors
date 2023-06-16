@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import ColorThief from 'colorthief';
+// import ColorThief from 'colorthief';
 import axios from 'axios';
 
 export function downloadFile(title : string, files : File[]) {
@@ -133,49 +133,49 @@ export function componentToHex(c : number) : string {
 export function rgbToHex(r : number, g : number, b : number) : string {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
-export function generate_artwork(url : string) : Promise<string> {
-    const colour_thief = new ColorThief();
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const image = new Image();
+// export function generate_artwork(url : string) : Promise<string> {
+//     const colour_thief = new ColorThief();
+//     const canvas = document.createElement('canvas');
+//     const context = canvas.getContext('2d');
+//     const image = new Image();
 
     
     
-    return new Promise(async (resolve, reject) => {
-        const blob = await get_image(url);
+//     return new Promise(async (resolve, reject) => {
+//         const blob = await get_image(url);
         
-        image.onload = () => {
-            let src : string = image.src;
-            const aspect = image.width / image.height;
-            const preserved_height = canvas.width / aspect;
-            canvas.width = 512;
-            canvas.height = 512;
-            const centre = canvas.width / 2;
-            const cx = centre - (canvas.width / 2);
-            const cy = centre - (preserved_height / 2);
+//         image.onload = () => {
+//             let src : string = image.src;
+//             const aspect = image.width / image.height;
+//             const preserved_height = canvas.width / aspect;
+//             canvas.width = 512;
+//             canvas.height = 512;
+//             const centre = canvas.width / 2;
+//             const cx = centre - (canvas.width / 2);
+//             const cy = centre - (preserved_height / 2);
     
             
     
-            const fill_colour = colour_thief.getColor(image);
-            const hex = rgbToHex(fill_colour[0], fill_colour[1], fill_colour[2]);
+//             const fill_colour = colour_thief.getColor(image);
+//             const hex = rgbToHex(fill_colour[0], fill_colour[1], fill_colour[2]);
             
-            if (context) {
-                context.fillStyle = hex;
-                context.fillRect(0, 0, canvas.width, canvas.height)
-                context.drawImage(image, 0, 0, image.width, image.height, cx, cy, canvas.width, preserved_height);
+//             if (context) {
+//                 context.fillStyle = hex;
+//                 context.fillRect(0, 0, canvas.width, canvas.height)
+//                 context.drawImage(image, 0, 0, image.width, image.height, cx, cy, canvas.width, preserved_height);
     
-                src = canvas.toDataURL('image/png');
-            }
+//                 src = canvas.toDataURL('image/png');
+//             }
     
-            resolve(src);
-        }
+//             resolve(src);
+//         }
 
 
-        image.src = URL.createObjectURL(blob);
-    });
+//         image.src = URL.createObjectURL(blob);
+//     });
 
     
-}
+// }
 
 export function share(title : string, text : string, url : string, files? : File[]) {
     const shareProxy : any = window.navigator;

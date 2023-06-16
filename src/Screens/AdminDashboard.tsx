@@ -51,8 +51,7 @@ export default class AdminDashboard extends React.Component<AdminDashboardProps,
                         <DataGrid
                             rows={this.state.mailing_list}
                             columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
+                            pageSizeOptions={[10, 10]}
                             checkboxSelection
                         />
                     </div>

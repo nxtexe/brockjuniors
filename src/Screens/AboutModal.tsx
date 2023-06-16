@@ -21,7 +21,7 @@ export default function AboutModal(props: AboutModalProps) {
         <div className="about-modal">
             <div className="modal screen-grid">
                 <div className="clear">
-                    <IconButton onClick={() => props.navigation.go_back()}>
+                    <IconButton onClick={() => props.navigation.goBack()}>
                         <ClearIcon />
                     </IconButton>
                 </div>
@@ -45,7 +45,7 @@ export default function AboutModal(props: AboutModalProps) {
                 }
                 <div className="image-view">
                     <SharedElement id={props.route.params.name} config={{
-                        transform_origin: 'bottom bottom'
+                        transformOrigin: 'bottom bottom'
                     }}>
                         <img src={images[props.route.params.name]} alt={props.route.params.name} />
                     </SharedElement>
